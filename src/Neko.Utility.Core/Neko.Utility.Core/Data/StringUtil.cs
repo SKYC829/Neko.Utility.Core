@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Neko.Utility.Core.Data
 {
@@ -168,47 +166,7 @@ namespace Neko.Utility.Core.Data
         /// <returns></returns>
         public static object Get(Type targetType, object value)
         {
-            object result = null;
-            //根据类型调用对应的方法转换数据
-            if (targetType.IsEnum)
-            {
-                string valueStr = GetString(value);
-                result = EnumUtil.Convert(targetType, valueStr);
-            }
-            else if (CompareType(targetType, typeof(string)))
-            {
-                result = GetString(value);
-            }
-            else if (CompareType(targetType,typeof(bool)))
-            {
-                string valueStr = GetString(value);
-                result = GetBoolean(valueStr);
-            }
-            else if (CompareType(targetType, typeof(int)))
-            {
-                result = GetInt(value);
-            }
-            else if (CompareType(targetType, typeof(double)))
-            {
-                result = GetDouble(value);
-            }
-            else if (CompareType(targetType, typeof(decimal)))
-            {
-                result = GetDecimal(value);
-            }
-            else if(CompareType(targetType,typeof(DateTime)) || CompareType(targetType, typeof(DateTime?)))
-            {
-                result = GetDateTime(value);
-            }
-            else if (targetType.IsClass && value is JObject) //如果转换的类型是Class并且是JObject类型,先将来源对象序列化为Json字符串，然后再反序列化为要转换的类型
-            {
-                result = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(value), targetType);
-            }
-            else //如果都不是上面的类型，则返回对象本身
-            {
-                result = value;
-            }
-            return result;
+            return InternalGet(targetType, value);
         }
 
         /// <summary>
@@ -316,12 +274,57 @@ namespace Neko.Utility.Core.Data
             {
                 if (!IsNullOrEmpty(value))
                 {
-                    result = (Tvalue)Convert.ChangeType(value, typeof(Tvalue));
+                    result = (Tvalue)InternalGet(typeof(Tvalue), value);
                 }
             }
             catch (Exception ex)
             {
                 //TODO:
+            }
+            return result;
+        }
+
+        internal static object InternalGet(Type targetType,object value)
+        {
+            object result = null;
+            //根据类型调用对应的方法转换数据
+            if (targetType.IsEnum)
+            {
+                string valueStr = GetString(value);
+                result = EnumUtil.Convert(targetType, valueStr);
+            }
+            else if (CompareType(targetType, typeof(string)))
+            {
+                result = GetString(value);
+            }
+            else if (CompareType(targetType, typeof(bool)))
+            {
+                string valueStr = GetString(value);
+                result = GetBoolean(valueStr);
+            }
+            else if (CompareType(targetType, typeof(int)))
+            {
+                result = GetInt(value);
+            }
+            else if (CompareType(targetType, typeof(double)))
+            {
+                result = GetDouble(value);
+            }
+            else if (CompareType(targetType, typeof(decimal)))
+            {
+                result = GetDecimal(value);
+            }
+            else if (CompareType(targetType, typeof(DateTime)) || CompareType(targetType, typeof(DateTime?)))
+            {
+                result = GetDateTime(value);
+            }
+            else if (targetType.IsClass && value is JObject) //如果转换的类型是Class并且是JObject类型,先将来源对象序列化为Json字符串，然后再反序列化为要转换的类型
+            {
+                result = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(value), targetType);
+            }
+            else //如果都不是上面的类型，则返回对象本身
+            {
+                result = value;
             }
             return result;
         }
