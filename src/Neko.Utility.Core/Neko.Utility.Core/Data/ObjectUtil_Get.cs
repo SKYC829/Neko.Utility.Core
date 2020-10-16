@@ -41,7 +41,7 @@ namespace Neko.Utility.Core.Data
             }
             else if (target is JObject)
             {
-                //result = Get()
+                result = Get((target as JObject)[fieldName]);
             }
             else if (targetType.IsClass)
             {
