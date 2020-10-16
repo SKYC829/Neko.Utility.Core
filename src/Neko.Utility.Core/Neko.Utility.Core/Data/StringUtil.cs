@@ -191,7 +191,8 @@ namespace Neko.Utility.Core.Data
         /// <returns></returns>
         public static string GetString(object value)
         {
-            throw new NotImplementedException();
+            value = ObjectUtil.Get(value);
+            return value == null ? string.Empty : value.ToString();
         }
 
         /// <summary>
