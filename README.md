@@ -1,2 +1,2 @@
 # Neko.Utility.Core
- A util project for netcore
+ A Utility project for netcore
