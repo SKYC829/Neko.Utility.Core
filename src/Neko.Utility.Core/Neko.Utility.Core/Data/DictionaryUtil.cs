@@ -19,9 +19,9 @@ namespace Neko.Utility.Core.Data
         /// <param name="dictionary">要获取值的键值对</param>
         /// <param name="key">要获取值的键</param>
         /// <returns></returns>
-        public static object Get(IDictionary dictionary,string key)
+        public static object Get(IDictionary dictionary, string key)
         {
-            return Get<object>(dictionary as IDictionary<string,object>, key);
+            return Get<object>(dictionary as IDictionary<string, object>, key);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Neko.Utility.Core.Data
         /// <param name="dictionary">要获取值的键值对</param>
         /// <param name="key">要获取值的键</param>
         /// <returns></returns>
-        public static Tvalue Get<Tvalue>(IDictionary<string,Tvalue> dictionary,string key)
+        public static Tvalue Get<Tvalue>(IDictionary<string, Tvalue> dictionary, string key)
         {
             return Get<string, Tvalue>(dictionary, key);
         }
@@ -44,10 +44,10 @@ namespace Neko.Utility.Core.Data
         /// <param name="dictionary">要获取值的键值对</param>
         /// <param name="key">要获取值的键</param>
         /// <returns></returns>
-        public static Tvalue Get<Tkey,Tvalue>(IDictionary<Tkey,Tvalue> dictionary, Tkey key)
+        public static Tvalue Get<Tkey, Tvalue>(IDictionary<Tkey, Tvalue> dictionary, Tkey key)
         {
             Tvalue result = default(Tvalue);
-            if(dictionary != null && dictionary.ContainsKey(key))
+            if (dictionary != null && dictionary.ContainsKey(key))
             {
                 try
                 {
@@ -72,7 +72,11 @@ namespace Neko.Utility.Core.Data
             IDictionary result = null;
             try
             {
-                if(target is IDictionary)
+                if (target == null)
+                {
+                    return result;
+                }
+                if (target is IDictionary)
                 {
                     result = target as IDictionary;
                 }
@@ -84,17 +88,17 @@ namespace Neko.Utility.Core.Data
             }
             finally
             {
-                if(result == null)
+                if (result == null)
                 {
                     result = new Dictionary<string, object>();
                     Type targetType = target.GetType();
-                    if(target is JObject)
+                    if (target is JObject)
                     {
                         JObject jObject = target as JObject;
-                        foreach (KeyValuePair<string,JToken> token in jObject)
+                        foreach (KeyValuePair<string, JToken> token in jObject)
                         {
                             string key = token.Key;
-                            if(token.Value is JValue value)
+                            if (token.Value is JValue value)
                             {
                                 result[key] = value.Value;
                             }
