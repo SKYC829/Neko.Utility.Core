@@ -211,7 +211,7 @@ namespace Neko.Utility.Core.Data
         /// <param name="value">要转换的对象</param>
         /// <param name="defaultValue">转换失败时返回的默认值</param>
         /// <returns></returns>
-        public static bool GetBoolean(object value,bool defaultValue)
+        public static bool GetBoolean(object value, bool defaultValue)
         {
             bool result = defaultValue;
             try
@@ -285,7 +285,7 @@ namespace Neko.Utility.Core.Data
             return result;
         }
 
-        internal static object InternalGet(Type targetType,object value)
+        internal static object InternalGet(Type targetType, object value)
         {
             object result = null;
             //根据类型调用对应的方法转换数据

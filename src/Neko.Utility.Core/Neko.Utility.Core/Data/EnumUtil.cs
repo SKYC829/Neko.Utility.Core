@@ -38,7 +38,7 @@ namespace Neko.Utility.Core.Data
         /// <param name="value">要转换的对象</param>
         /// <param name="defaultValue">当转换失败时返回的默认值</param>
         /// <returns></returns>
-        public static object Convert(Type enumType,string value,object defaultValue)
+        public static object Convert(Type enumType, string value, object defaultValue)
         {
             object result = defaultValue;
             if (enumType.IsEnum)
@@ -64,7 +64,7 @@ namespace Neko.Utility.Core.Data
         /// <param name="enumType">枚举类型</param>
         /// <param name="value">要转换的对象</param>
         /// <returns></returns>
-        public static object Convert(Type enumType,string value)
+        public static object Convert(Type enumType, string value)
         {
             return Convert(enumType, value, 0);
         }

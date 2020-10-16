@@ -16,9 +16,9 @@ namespace Neko.Utility.Core.Data
         /// <param name="dataRow">要设置值的<see cref="DataRow"/></param>
         /// <param name="columnName">字段的列名</param>
         /// <param name="fieldValue">字段的值</param>
-        public static void Set(DataRow dataRow,string columnName,object fieldValue)
+        public static void Set(DataRow dataRow, string columnName, object fieldValue)
         {
-            if(dataRow == null)
+            if (dataRow == null)
             {
                 return;
             }
@@ -36,15 +36,15 @@ namespace Neko.Utility.Core.Data
         /// <param name="dataRow">要获取值的<see cref="DataRow"/></param>
         /// <param name="columnName">要获取值的列名</param>
         /// <returns></returns>
-        public static object Get(DataRow dataRow,string columnName)
+        public static object Get(DataRow dataRow, string columnName)
         {
             object result = null;
-            if(dataRow != null)
+            if (dataRow != null)
             {
                 DataTable parent = dataRow.Table;
                 if (parent.Columns.Contains(columnName))
                 {
-                    if(dataRow.RowState != DataRowState.Detached)
+                    if (dataRow.RowState != DataRowState.Detached)
                     {
                         result = dataRow[columnName];
                     }
@@ -60,10 +60,10 @@ namespace Neko.Utility.Core.Data
         /// <param name="columnName">要获取值的列名</param>
         /// <param name="valueType">要转换的类型</param>
         /// <returns></returns>
-        public static object Get(DataRow dataRow,string columnName,Type valueType)
+        public static object Get(DataRow dataRow, string columnName, Type valueType)
         {
             object result = Get(dataRow, columnName);
-            if(result != null)
+            if (result != null)
             {
                 result = StringUtil.Get(valueType, result);
             }
@@ -77,7 +77,7 @@ namespace Neko.Utility.Core.Data
         /// <param name="dataRow">要获取值的<see cref="DataRow"/></param>
         /// <param name="columnName">要获取值的列名</param>
         /// <returns></returns>
-        public static Tvalue Get<Tvalue>(DataRow dataRow,string columnName)
+        public static Tvalue Get<Tvalue>(DataRow dataRow, string columnName)
         {
             object result = Get(dataRow, columnName);
             if (result != null)
@@ -171,12 +171,12 @@ namespace Neko.Utility.Core.Data
         /// <param name="index"><see cref="DataRow"/>的位置</param>
         /// <param name="dataTable">要获取<see cref="DataRow"/>的<see cref="DataTable"/></param>
         /// <returns></returns>
-        public static DataRow GetRow(int index,DataTable dataTable)
+        public static DataRow GetRow(int index, DataTable dataTable)
         {
             DataRow result = null;
-            if(dataTable != null && index >= 0)
+            if (dataTable != null && index >= 0)
             {
-                if(index <= dataTable.Rows.Count)
+                if (index <= dataTable.Rows.Count)
                 {
                     result = dataTable.Rows[index];
                 }
@@ -189,7 +189,7 @@ namespace Neko.Utility.Core.Data
         /// </summary>
         /// <param name="dataTable">要添加列的<see cref="DataTable"/></param>
         /// <param name="columnNames">要添加的列名(可以是多个)</param>
-        public static void AddColumn(DataTable dataTable,params string[] columnNames)
+        public static void AddColumn(DataTable dataTable, params string[] columnNames)
         {
             DataColumn[] columns = new DataColumn[columnNames.Length];
             for (int i = 0; i < columnNames.Length; i++)
@@ -205,7 +205,7 @@ namespace Neko.Utility.Core.Data
         /// </summary>
         /// <param name="dataTable">要添加列的<see cref="DataTable"/></param>
         /// <param name="dataColumns">要添加的列名(可以是多个)</param>
-        public static void AddColumn(DataTable dataTable,params DataColumn[] dataColumns)
+        public static void AddColumn(DataTable dataTable, params DataColumn[] dataColumns)
         {
             dataTable.Columns.AddRange(dataColumns);
         }
