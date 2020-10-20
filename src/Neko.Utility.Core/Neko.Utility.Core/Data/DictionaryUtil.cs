@@ -134,5 +134,47 @@ namespace Neko.Utility.Core.Data
             }
             return result;
         }
+
+        /// <summary>
+        /// 根据键值对的Key或Value进行排序
+        /// <para>使用此方法时,排序字段必须要能够进行减法运算</para>
+        /// </summary>
+        /// <typeparam name="Tkey">键值对的键</typeparam>
+        /// <typeparam name="Tvalue">键值对的值</typeparam>
+        /// <param name="dictionary">要排序的键值对</param>
+        /// <param name="sortByValue">是否根据值进行排序<para>为true时按照Value排序,否则按照Key排序</para></param>
+        /// <returns></returns>
+        public static IList<KeyValuePair<Tkey, Tvalue>> SortDictionary<Tkey, Tvalue>(IDictionary<Tkey, Tvalue> dictionary, bool sortByValue = true) where Tvalue:struct
+        {
+            List<KeyValuePair<Tkey, Tvalue>> results = new List<KeyValuePair<Tkey, Tvalue>>();
+            if(dictionary == null || dictionary.Count <= 0)
+            {
+                return results;
+            }
+            results.AddRange(dictionary);
+            try
+            {
+                results.Sort(delegate (KeyValuePair<Tkey, Tvalue> previewItem, KeyValuePair<Tkey, Tvalue> nextItem)
+                {
+                    dynamic previewKey = previewItem.Key;
+                    dynamic nextKey = nextItem.Key;
+                    dynamic previewValue = previewItem.Value;
+                    dynamic nextValue = nextItem.Value;
+                    if (sortByValue)
+                    {
+                        return (int)(nextValue - previewValue);
+                    }
+                    else
+                    {
+                        return (int)(nextKey - previewKey);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                //TODO:
+            }
+            return results;
+        }
     }
 }
