@@ -1,5 +1,4 @@
-﻿using Neko.Utility.Core.Common;
-using Neko.Utility.Core.Configurations;
+﻿using Neko.Utility.Core.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -103,7 +102,7 @@ namespace Neko.Utility.Core.IO.Logging
             _startTime = _getNow();
             if (!string.IsNullOrEmpty(logTitle))
             {
-                _logMessage.Append(string.Format("-----------------------------{0}-----------------------------", logTitle));
+                _logMessage.Append(string.Format("-----------------------------{0}-----------------------------\r\n", logTitle));
             }
         }
 
@@ -133,7 +132,8 @@ namespace Neko.Utility.Core.IO.Logging
         /// </summary>
         /// <param name="logLevel">日志等级</param>
         /// <param name="logMessage">日志信息</param>
-        internal void Commit(LogLevel logLevel, string logMessage)
+        /// <param name="innerException">错误信息</param>
+        internal void Commit(LogLevel logLevel, string logMessage,Exception innerException = null)
         {
             Commit();
             if (!string.IsNullOrEmpty(logMessage))
@@ -142,7 +142,7 @@ namespace Neko.Utility.Core.IO.Logging
             }
             lock (_logQueue)
             {
-                LogInfo logInfo = new LogInfo(logLevel, DateTime.Now, _logMessage.ToString());
+                LogInfo logInfo = new LogInfo(logLevel, DateTime.Now, _logMessage.ToString(), innerException);
                 _logQueue.Enqueue(logInfo);
                 _logMessage = new StringBuilder();
             }
@@ -201,13 +201,23 @@ namespace Neko.Utility.Core.IO.Logging
         /// <param name="messageParameters">日志信息的参数</param>
         public void CommitException(string logMessage, params object[] messageParameters)
         {
-            Commit(LogLevel.Exception, logMessage, messageParameters);
+            CommitException(new Exception(string.Format(logMessage, messageParameters)));
+        }
+
+        /// <summary>
+        /// 提交<inheritdoc cref="LogLevel.Exception"/>
+        /// <para>如果要输出日志,请使用<see cref="WriteLog"/>方法</para>
+        /// </summary>
+        /// <param name="innerException">异常信息</param>
+        public void CommitException(Exception innerException)
+        {
+            Commit(LogLevel.Exception, innerException.Message, innerException);
         }
 
         /// <summary>
         /// 输出日志到日志文件
         /// </summary>
-        public void WriteLog()                                                                                
+        public void WriteLog()
         {
             if (_totalTimeConsuming < _logConfiguration.RecordMinimumInterval)
             {
@@ -223,7 +233,7 @@ namespace Neko.Utility.Core.IO.Logging
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
             }
             finally
             {
