@@ -506,6 +506,11 @@
             记录日志的路径
             </summary>
         </member>
+        <member name="P:Neko.Utility.Core.Configurations.LogConfiguration.LogFileName">
+            <summary>
+            记录日志文件的文件名
+            </summary>
+        </member>
         <member name="P:Neko.Utility.Core.Configurations.LogConfiguration.LogLevel">
             <summary>
             记录日志的等级
@@ -1198,13 +1203,14 @@
             <param name="logMessage">日志信息</param>
             <param name="messageParameters">日志信息的参数</param>
         </member>
-        <member name="M:Neko.Utility.Core.IO.Logging.Logger.Commit(Neko.Utility.Core.Configurations.LogLevel,System.String)">
+        <member name="M:Neko.Utility.Core.IO.Logging.Logger.Commit(Neko.Utility.Core.Configurations.LogLevel,System.String,System.Exception)">
             <summary>
             提交日志信息
             <para>如果要输出日志,请使用<see cref="M:Neko.Utility.Core.IO.Logging.Logger.WriteLog"/>方法</para>
             </summary>
             <param name="logLevel">日志等级</param>
             <param name="logMessage">日志信息</param>
+            <param name="innerException">错误信息</param>
         </member>
         <member name="M:Neko.Utility.Core.IO.Logging.Logger.Commit">
             <summary>
@@ -1243,6 +1249,13 @@
             </summary>
             <param name="logMessage">日志信息</param>
             <param name="messageParameters">日志信息的参数</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.Logger.CommitException(System.Exception)">
+            <summary>
+            提交<inheritdoc cref="F:Neko.Utility.Core.Configurations.LogLevel.Exception"/>
+            <para>如果要输出日志,请使用<see cref="M:Neko.Utility.Core.IO.Logging.Logger.WriteLog"/>方法</para>
+            </summary>
+            <param name="innerException">异常信息</param>
         </member>
         <member name="M:Neko.Utility.Core.IO.Logging.Logger.WriteLog">
             <summary>
@@ -1284,6 +1297,124 @@
             日志帮助类
             <para>输出日志信息到文件</para>
             </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.Logging.LogUtil._logCache">
+            <summary>
+            历史日志缓存
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.Logging.LogUtil._logQueue">
+            <summary>
+            输出日志队列
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.Logging.LogUtil._logConfiguration">
+            <summary>
+            日志配置信息
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.IO.Logging.LogUtil.OnWriteLog">
+            <summary>
+            正在输出日志委托方法
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.StartLog">
+            <summary>
+            开启线程输出日志到文件
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.WriteInformation(System.String,System.Object[])">
+            <summary>
+            记录<inheritdoc cref="F:Neko.Utility.Core.Configurations.LogLevel.Information"/>
+            </summary>
+            <param name="logMessage">日志信息</param>
+            <param name="messageParameters">日志信息的参数</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.WriteWarning(System.Exception,System.String,System.Object[])">
+            <summary>
+            记录<inheritdoc cref="F:Neko.Utility.Core.Configurations.LogLevel.Warning"/>
+            </summary>
+            <param name="warningException">可能会发生的异常</param>
+            <param name="logMessage">日志信息</param>
+            <param name="messageParameters">日志信息的参数</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.WriteException(System.Exception,System.String)">
+            <summary>
+            记录<inheritdoc cref="F:Neko.Utility.Core.Configurations.LogLevel.Exception"/>
+            </summary>
+            <param name="innerException">异常信息</param>
+            <param name="caption">错误提示</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.WriteLog(Neko.Utility.Core.Configurations.LogLevel,System.String,System.Exception)">
+            <summary>
+            记录日志
+            </summary>
+            <param name="logLevel">日志类型</param>
+            <param name="logMessage">日志信息</param>
+            <param name="innerException">异常信息</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.WriteLog(Neko.Utility.Core.IO.Logging.LogInfo)">
+            <summary>
+            添加日志到输出日志队列
+            </summary>
+            <param name="logInfo">日志信息实体类</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.Enqueue(Neko.Utility.Core.IO.Logging.LogInfo)">
+            <summary>
+            添加日志到输出日志队列
+            </summary>
+            <param name="logInfo">日志信息实体类</param>
+        </member>
+        <member name="T:Neko.Utility.Core.Threading.IntervalInfo">
+            <summary>
+            线程信息的实体类对象
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.Threading.IntervalInfo.CurrentThread">
+            <summary>
+            当前线程
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.Threading.IntervalInfo.Interval">
+            <summary>
+            线程循环执行时的间隔时间（单位:毫秒）
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.Threading.IntervalInfo.ExecuteCode">
+            <summary>
+            线程要执行的方法
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.Threading.IntervalInfo.Break">
+            <summary>
+            是否中断
+            </summary>
+        </member>
+        <member name="T:Neko.Utility.Core.Threading.ThreadUtil">
+            <summary>
+            线程帮助类
+            <para>一些线程的快速操作</para>
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.Sleep(System.Int32)">
+            <summary>
+            <inheritdoc cref="M:System.Threading.Thread.Sleep(System.Int32)"/>
+            </summary>
+            <param name="interval">休眠时间</param>
+        </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.RunThread(Neko.Utility.Core.EmptyDelegateCode)">
+            <summary>
+            创建并运行一个新线程
+            </summary>
+            <param name="executeCode">线程要执行的方法</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.RunLoop(Neko.Utility.Core.Threading.IntervalInfo)">
+            <summary>
+            创建并循环执行一个线程
+            </summary>
+            <param name="intervalInfo">线程信息</param>
+            <returns></returns>
         </member>
     </members>
 </doc>
