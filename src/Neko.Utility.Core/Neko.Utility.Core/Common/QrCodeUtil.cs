@@ -5,6 +5,7 @@ using System.IO;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode.Internal;
+using Neko.Utility.Core.Configurations;
 
 namespace Neko.Utility.Core.Common
 {

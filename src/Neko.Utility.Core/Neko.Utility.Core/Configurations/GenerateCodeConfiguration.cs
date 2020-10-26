@@ -1,4 +1,4 @@
-﻿namespace Neko.Utility.Core.Common
+﻿namespace Neko.Utility.Core.Configurations
 {
     public class GenerateCodeConfiguration
     {
