@@ -4,8 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Neko.Utility.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Folder Include="IO\" />
     <Folder Include="Net\" />
     <Folder Include="Threading\" />
     <Folder Include="Extensions\" />
