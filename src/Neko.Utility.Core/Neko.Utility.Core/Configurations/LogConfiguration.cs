@@ -24,6 +24,11 @@ namespace Neko.Utility.Core.Configurations
         public string LogPath { get; set; }
 
         /// <summary>
+        /// 记录日志文件的文件名
+        /// </summary>
+        public string LogFileName { get; set; }
+
+        /// <summary>
         /// 记录日志的等级
         /// </summary>
         public LogLevel LogLevel { get; set; }
@@ -42,6 +47,7 @@ namespace Neko.Utility.Core.Configurations
         {
             RecordMinimumInterval = 1;
             LogPath = "Temp/Log";
+            LogFileName = string.Format("{0:yyyyMMdd}.log", DateTime.Today);
             LogLevel = LogLevel.Information;
         }
 
