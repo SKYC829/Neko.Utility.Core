@@ -1,5 +1,8 @@
-﻿namespace Neko.Utility.Core.Configurations
+﻿using System;
+
+namespace Neko.Utility.Core.Configurations
 {
+    [Serializable]
     public class GenerateCodeConfiguration
     {
         /// <summary>
