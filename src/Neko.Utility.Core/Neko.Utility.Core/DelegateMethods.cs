@@ -15,7 +15,6 @@
     /// <summary>
     /// 有参的委托方法
     /// </summary>
-    /// <typeparam name="T">参数类型</typeparam>
     /// <param name="args">参数</param>
     public delegate void ParameterDelegateCode(params object[] args);
 }
