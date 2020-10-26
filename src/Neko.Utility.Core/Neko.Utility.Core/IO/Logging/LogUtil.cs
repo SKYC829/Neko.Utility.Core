@@ -1,7 +1,12 @@
 ﻿using Neko.Utility.Core.Configurations;
+using Neko.Utility.Core.Data;
+using Neko.Utility.Core.Threading;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Neko.Utility.Core.IO.Logging
 {
@@ -35,6 +40,19 @@ namespace Neko.Utility.Core.IO.Logging
         {
             _logCache = new Dictionary<string, LogInfo>();
             _logQueue = new Queue<LogInfo>();
+            StartLog();
+        }
+
+        /// <summary>
+        /// 开启线程输出日志到文件
+        /// </summary>
+        private static void StartLog()
+        {
+            ThreadUtil.RunLoop(new IntervalInfo()
+            {
+                Interval = 100,
+                ExecuteCode = WriteLogToFile
+            }).Name = "Output log thread";
         }
 
         /// <summary>
@@ -42,7 +60,7 @@ namespace Neko.Utility.Core.IO.Logging
         /// </summary>
         /// <param name="logMessage">日志信息</param>
         /// <param name="messageParameters">日志信息的参数</param>
-        public static void WriteInformation(string logMessage,params object[] messageParameters)
+        public static void WriteInformation(string logMessage, params object[] messageParameters)
         {
             WriteLog(LogLevel.Information, string.Format(logMessage, messageParameters));
         }
@@ -53,7 +71,7 @@ namespace Neko.Utility.Core.IO.Logging
         /// <param name="warningException">可能会发生的异常</param>
         /// <param name="logMessage">日志信息</param>
         /// <param name="messageParameters">日志信息的参数</param>
-        public static void WriteWarning(Exception warningException,string logMessage,params object[] messageParameters)
+        public static void WriteWarning(Exception warningException, string logMessage, params object[] messageParameters)
         {
             WriteLog(LogLevel.Warning, string.Format(logMessage, messageParameters), warningException);
         }
@@ -63,8 +81,12 @@ namespace Neko.Utility.Core.IO.Logging
         /// </summary>
         /// <param name="innerException">异常信息</param>
         /// <param name="caption">错误提示</param>
-        public static void WriteException(Exception innerException,string caption)
+        public static void WriteException(Exception innerException, string caption = null)
         {
+            if (string.IsNullOrEmpty(caption))
+            {
+                caption = innerException.Message;
+            }
             WriteLog(LogLevel.Exception, caption, innerException);
         }
 
@@ -74,7 +96,7 @@ namespace Neko.Utility.Core.IO.Logging
         /// <param name="logLevel">日志类型</param>
         /// <param name="logMessage">日志信息</param>
         /// <param name="innerException">异常信息</param>
-        public static void WriteLog(LogLevel logLevel,string logMessage = null,Exception innerException = null)
+        public static void WriteLog(LogLevel logLevel, string logMessage = null, Exception innerException = null)
         {
             LogInfo logInfo = new LogInfo(logLevel, DateTime.Now, logMessage, innerException);
             WriteLog(logInfo);
@@ -98,6 +120,108 @@ namespace Neko.Utility.Core.IO.Logging
             lock (_logQueue)
             {
                 _logQueue.Enqueue(logInfo);
+            }
+        }
+
+        private static void WriteLogToFile()
+        {
+            _logConfiguration = LogConfiguration.GetConfiguration();
+            if (_logQueue.Count < 1)
+            {
+                return;
+            }
+            string logFileFullName = string.Format("{0}/{1}", _logConfiguration.LogPath, _logConfiguration.LogFileName);
+            string logPath = Path.GetDirectoryName(logFileFullName);
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+            }
+            StreamWriter writer = new StreamWriter(logFileFullName, true, Encoding.Default);
+            do
+            {
+                try
+                {
+                    if (_logQueue.Count == 0)
+                    {
+                        break;
+                    }
+                    LogInfo logInfo = null;
+                    lock (_logQueue)
+                    {
+                        logInfo = _logQueue.Dequeue();
+                    }
+                    if (logInfo == null)
+                    {
+                        continue;
+                    }
+                    if (logInfo.LogLevel < _logConfiguration.LogLevel)
+                    {
+                        continue;
+                    }
+                    if (logInfo.InnerException != null)
+                    {
+                        if (string.IsNullOrEmpty(logInfo.LogMessage))
+                        {
+                            logInfo.LogMessage = string.Format("{0}\r\n{1}", logInfo.InnerException.Message, logInfo.InnerException.StackTrace);
+                        }
+                        else
+                        {
+                            logInfo.LogMessage = string.Format("{0}\r\n错误信息:{1}\r\n异常堆栈:{2}", logInfo.LogMessage, logInfo.InnerException.Message, logInfo.InnerException.StackTrace);
+                        }
+                        string cacheKey = logInfo.LogMessage; //TODO:加密
+                        LogInfo cacheInfo = DictionaryUtil.Get<LogInfo>(_logCache, cacheKey);
+                        if (cacheInfo == null)
+                        {
+                            _logCache[cacheKey] = cacheInfo;
+                        }
+                        else
+                        {
+                            cacheInfo.LogCount++;
+                            if ((logInfo.LogTime - cacheInfo.LogTime).TotalMinutes < 5)
+                            {
+                                continue;
+                            }
+                            logInfo.LogMessage = string.Format("{0}(5分钟内触发了{1}次)", logInfo.LogMessage, cacheInfo.LogCount);
+                            cacheInfo.LogCount = 0;
+                            cacheInfo.LogTime = logInfo.LogTime;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(logInfo.LogMessage))
+                    {
+                        continue;
+                    }
+                    string logMessage = string.Format("[{0:HH:mm:ss}][{1}]:\r\n{2}", logInfo.LogTime, logInfo.LogLevel, logInfo.LogMessage);
+                    if (_logConfiguration.AddConsole)
+                    {
+                        Console.WriteLine(logMessage);
+                    }
+                    if (_logConfiguration.AddDebug)
+                    {
+                        Debug.Print(logMessage);
+                    }
+                    if(writer != null)
+                    {
+                        writer.WriteLine(logMessage);
+                    }
+                    OnWriteLog?.Invoke(logInfo.LogLevel, logMessage);
+                }
+                catch (Exception ex)
+                {
+                    WriteException(ex);
+                }
+                finally
+                {
+                    if (writer != null && _logQueue.Count == 0)
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
+            } while (true);
+            if(writer != null)
+            {
+                writer.Close();
+                writer.Dispose();
+                writer = null;
             }
         }
     }
