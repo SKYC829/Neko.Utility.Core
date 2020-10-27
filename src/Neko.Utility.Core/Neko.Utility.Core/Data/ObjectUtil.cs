@@ -149,7 +149,7 @@ namespace Neko.Utility.Core.Data
 
         /// <summary>
         /// 将一个对象转换为另一个类型的对象
-        /// <para>名称相同的属性/字段将会被赋值到目标对象<paramref name="targetObject"/></para>
+        /// <para>名称相同的属性/字段将会被赋值到目标对象</para>
         /// </summary>
         /// <typeparam name="TObject">要被转换到的类型</typeparam>
         /// <param name="fromObject">要转换的对象</param>
