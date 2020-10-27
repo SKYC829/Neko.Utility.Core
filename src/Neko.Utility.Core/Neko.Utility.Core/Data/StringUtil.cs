@@ -242,7 +242,7 @@ namespace Neko.Utility.Core.Data
         }
 
         /// <summary>
-        /// 将对象转换为<see cref="DateTime?"/>类型
+        /// 将对象转换为<see cref="DateTime"/>类型
         /// </summary>
         /// <param name="value">要转换的对象</param>
         /// <returns></returns>
