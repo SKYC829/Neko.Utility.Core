@@ -421,7 +421,7 @@
             将一个xml数据反序列化为一个对象
             </summary>
             <typeparam name="Tvalue">对象类型</typeparam>
-            <param name="xmlString">xml数据的二进制数组</param>
+            <param name="xmlBytes">xml数据的二进制数组</param>
             <returns></returns>
         </member>
         <member name="M:Neko.Utility.Core.Common.SerializeUtil.FromXml``1(System.IO.Stream)">
@@ -429,7 +429,7 @@
             将一个xml数据反序列化为一个对象
             </summary>
             <typeparam name="Tvalue">对象类型</typeparam>
-            <param name="xmlString">xml数据流</param>
+            <param name="xmlStream">xml数据流</param>
             <returns></returns>
         </member>
         <member name="P:Neko.Utility.Core.Configurations.GenerateCodeConfiguration.CodeMargin">
@@ -699,7 +699,7 @@
         <member name="M:Neko.Utility.Core.Data.ObjectUtil.Convert``1(System.Object)">
             <summary>
             将一个对象转换为另一个类型的对象
-            <para>名称相同的属性/字段将会被赋值到目标对象<paramref name="targetObject"/></para>
+            <para>名称相同的属性/字段将会被赋值到目标对象</para>
             </summary>
             <typeparam name="TObject">要被转换到的类型</typeparam>
             <param name="fromObject">要转换的对象</param>
@@ -1095,7 +1095,7 @@
         </member>
         <member name="M:Neko.Utility.Core.Data.StringUtil.GetDateTime(System.Object)">
             <summary>
-            将对象转换为<see cref="!:DateTime?"/>类型
+            将对象转换为<see cref="T:System.DateTime"/>类型
             </summary>
             <param name="value">要转换的对象</param>
             <returns></returns>
@@ -1130,8 +1130,123 @@
             <summary>
             有参的委托方法
             </summary>
-            <typeparam name="T">参数类型</typeparam>
             <param name="args">参数</param>
+        </member>
+        <member name="T:Neko.Utility.Core.CompressDelegateCode">
+            <summary>
+            压缩/解压文件时的委托方法
+            </summary>
+            <param name="fileName">正在压缩/解压的文件</param>
+            <param name="compressedSize">已经压缩/解压的文件大小</param>
+            <param name="totalSize">正在压缩/解压的文件总大小</param>
+            <param name="isFolder">当前是否是文件夹</param>
+        </member>
+        <member name="T:Neko.Utility.Core.IO.CompressUtil">
+            <summary>
+            压缩文件帮助类
+            <para>目前仅支持zip(因为zip应用最广泛了)</para>
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.CompressUtil._zipFileList">
+            <summary>
+            当前压缩包的文件/文件夹列表
+            </summary>
+        </member>
+        <member name="E:Neko.Utility.Core.IO.CompressUtil.OnCompress">
+            <summary>
+            正在压缩事件
+            </summary>
+        </member>
+        <member name="E:Neko.Utility.Core.IO.CompressUtil.OnDecompress">
+            <summary>
+            正在解压事件
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.IO.CompressUtil.ZipFileList">
+            <summary>
+            <inheritdoc cref="F:Neko.Utility.Core.IO.CompressUtil._zipFileList"/>
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Add(System.String)">
+            <summary>
+            添加一个文件或文件夹到压缩文件列表
+            </summary>
+            <param name="fileName">文件或文件夹路径</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Add(System.IO.FileSystemInfo)">
+            <summary>
+            添加一个文件或文件夹到压缩文件列表
+            </summary>
+            <param name="fileSystem">文件或文件夹对象</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Remove(System.String)">
+            <summary>
+            从压缩文件列表中移除一个文件或文件夹
+            </summary>
+            <param name="fileName">文件或文件夹名称</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Remove(System.IO.FileSystemInfo)">
+            <summary>
+            从压缩文件列表中移除一个文件或文件夹
+            </summary>
+            <param name="fileSystem">文件或文件夹对象</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.OpenZip(System.String)">
+            <summary>
+            打开并读取Zip文件
+            </summary>
+            <param name="fileName">Zip文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.AddEntry(System.IO.FileSystemInfo,ICSharpCode.SharpZipLib.Zip.ZipOutputStream,System.String)">
+            <summary>
+            添加一个文件或文件夹到一个已有的压缩文件中
+            </summary>
+            <param name="fileSystem">文件或文件夹对象</param>
+            <param name="zipStream">压缩文件流</param>
+            <param name="root">文件或文件夹在压缩文件内的父目录</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Compress(System.String)">
+            <summary>
+            根据<inheritdoc cref="F:Neko.Utility.Core.IO.CompressUtil._zipFileList"/>生成压缩文件
+            </summary>
+            <param name="zipFile">压缩文件名称</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Compress(System.String,System.String)">
+            <summary>
+            <inheritdoc cref="F:Neko.Utility.Core.IO.CompressUtil._zipFileList"/>
+            </summary>
+            <param name="zipFile">压缩文件名称</param>
+            <param name="passCode">压缩文件密码</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.VerifyFileName(System.String)">
+            <summary>
+            验证文件名,使文件名已.zip结尾
+            </summary>
+            <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.VerifyArchive(System.String)">
+            <summary>
+            校验zip文件是否有错误
+            </summary>
+            <param name="fileName">文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Decompress(System.String,System.String)">
+            <summary>
+            解压zip文件
+            </summary>
+            <param name="zipFile">zip文件路径</param>
+            <param name="unzipPath">要解压到的路径</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.Decompress(System.String,System.String,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.CompressUtil.Decompress(System.String,System.String)"/>
+            </summary>
+            <param name="zipFile">zip文件路径</param>
+            <param name="unzipPath">要解压到的路径</param>
+            <param name="passCode">压缩文件密码</param>
         </member>
         <member name="T:Neko.Utility.Core.IO.Logging.Logger">
             <summary>
