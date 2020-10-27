@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neko.Utility.Core.IO.Logging;
+using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -29,7 +30,8 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return buffer;
         }
@@ -69,7 +71,8 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -108,7 +111,7 @@ namespace Neko.Utility.Core.Common
         /// 将一个xml数据反序列化为一个对象
         /// </summary>
         /// <typeparam name="Tvalue">对象类型</typeparam>
-        /// <param name="xmlString">xml数据的二进制数组</param>
+        /// <param name="xmlBytes">xml数据的二进制数组</param>
         /// <returns></returns>
         public static Tvalue FromXml<Tvalue>(byte[] xmlBytes)
         {
@@ -126,7 +129,8 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -135,7 +139,7 @@ namespace Neko.Utility.Core.Common
         /// 将一个xml数据反序列化为一个对象
         /// </summary>
         /// <typeparam name="Tvalue">对象类型</typeparam>
-        /// <param name="xmlString">xml数据流</param>
+        /// <param name="xmlStream">xml数据流</param>
         /// <returns></returns>
         public static Tvalue FromXml<Tvalue>(Stream xmlStream)
         {
@@ -160,7 +164,8 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }

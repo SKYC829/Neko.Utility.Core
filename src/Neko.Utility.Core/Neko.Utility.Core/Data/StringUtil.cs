@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Neko.Utility.Core.IO.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -149,7 +150,8 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -223,7 +225,8 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -280,7 +283,8 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }

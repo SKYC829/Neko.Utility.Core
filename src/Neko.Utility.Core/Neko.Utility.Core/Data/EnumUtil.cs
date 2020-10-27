@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neko.Utility.Core.IO.Logging;
+using System;
 
 namespace Neko.Utility.Core.Data
 {
@@ -51,7 +52,8 @@ namespace Neko.Utility.Core.Data
                     }
                     catch (Exception ex)
                     {
-                        //TODO:
+                        LogUtil.WriteException(ex);
+                        throw ex;
                     }
                 }
             }

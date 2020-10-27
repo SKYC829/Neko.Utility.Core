@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Neko.Utility.Core.IO.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -53,9 +54,14 @@ namespace Neko.Utility.Core.Data
                 {
                     result = (Tvalue)System.Convert.ChangeType(dictionary[key], typeof(Tvalue));
                 }
-                catch (Exception ex)
+                catch(InvalidCastException ex)
                 {
-                    //TODO:
+                    LogUtil.WriteException(ex, "无法将对象转换为" + typeof(Tvalue));
+                    throw ex;
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
             return result;
@@ -172,7 +178,8 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex);
+                throw ex;
             }
             return results;
         }

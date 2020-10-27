@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neko.Utility.Core.IO.Logging;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -20,9 +21,9 @@ namespace Neko.Utility.Core.Common
         public static byte[] ToBinary(object fromObject)
         {
             Type objectType = fromObject.GetType();
-            if(objectType.IsClass && objectType.GetCustomAttribute(typeof(SerializableAttribute),true) == null)
+            if (objectType.IsClass && objectType.GetCustomAttribute(typeof(SerializableAttribute), true) == null)
             {
-                throw new NotSupportedException(string.Format("序列化至二进制的类型{0}必须要标记{1}特性!",objectType.FullName,nameof(SerializableAttribute)));
+                throw new NotSupportedException(string.Format("序列化至二进制的类型{0}必须要标记{1}特性!", objectType.FullName, nameof(SerializableAttribute)));
             }
             using (MemoryStream ms = new MemoryStream())
             {
@@ -62,11 +63,12 @@ namespace Neko.Utility.Core.Common
         public static Tobject FromBinary<Tobject>(Stream binaryStream)
         {
             Tobject result = default(Tobject);
+            Type resultType = null;
             try
             {
                 object serializeResult = FromBinary(binaryStream);
-                Type resultType = serializeResult.GetType();
-                if(resultType.GetInterface(nameof(IConvertible)) != null)
+                resultType = serializeResult.GetType();
+                if (resultType.GetInterface(nameof(IConvertible)) != null)
                 {
                     result = (Tobject)Convert.ChangeType(serializeResult, typeof(Tobject));
                 }
@@ -77,11 +79,13 @@ namespace Neko.Utility.Core.Common
             }
             catch (InvalidCastException ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex, "无法转换反序列化后的对象为" + typeof(Tobject));
+                throw ex;
             }
             catch (SerializationException ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex, string.Format("无法将{0}反序列化为{1}", resultType ?? null, typeof(Tobject)));
+                throw ex;
             }
             catch (Exception)
             {
@@ -97,7 +101,7 @@ namespace Neko.Utility.Core.Common
         /// <returns></returns>
         public static object FromBinary(byte[] binaryBytes)
         {
-            if(binaryBytes == null || binaryBytes.Length <= 0)
+            if (binaryBytes == null || binaryBytes.Length <= 0)
             {
                 return null;
             }
@@ -114,7 +118,7 @@ namespace Neko.Utility.Core.Common
         /// <returns></returns>
         public static object FromBinary(Stream binaryStream)
         {
-            if(binaryStream == null)
+            if (binaryStream == null)
             {
                 return null;
             }
@@ -126,7 +130,8 @@ namespace Neko.Utility.Core.Common
             }
             catch (SerializationException ex)
             {
-                //TODO:
+                LogUtil.WriteException(ex, "无法序列化对象,请确认对象实现了Serialize特性");
+                throw ex;
             }
             catch (Exception)
             {
