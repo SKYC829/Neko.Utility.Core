@@ -1248,6 +1248,165 @@
             <param name="unzipPath">要解压到的路径</param>
             <param name="passCode">压缩文件密码</param>
         </member>
+        <member name="T:Neko.Utility.Core.IO.EncryptionUtil">
+            <summary>
+            加密帮助类
+            <para>一些常用的加密的快速操作</para>
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.VerifyKeyBytes(System.Byte[],System.Int32)">
+            <summary>
+            验证密钥长度,如果大于长度则会截断密钥
+            </summary>
+            <param name="keyBytes">密钥二进制数组</param>
+            <param name="keyLength">密钥长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.Encrypt(System.Security.Cryptography.ICryptoTransform,System.Byte[])">
+            <summary>
+            根据<see cref="T:System.Security.Cryptography.ICryptoTransform"/>工厂进行对应的加密或解密操作
+            </summary>
+            <param name="cryptoTransform">加密或解密的工厂类</param>
+            <param name="value">要加密或解密的字节数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.GetEncryptFactory``1(System.String,System.Int32)">
+            <summary>
+            创建加密解密用的<see cref="T:System.Security.Cryptography.SymmetricAlgorithm"/>对象并设置密钥
+            </summary>
+            <typeparam name="TFactory">加密解密对象工厂</typeparam>
+            <param name="privateKey">密钥</param>
+            <param name="keyLength">密钥长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptAESToString(System.Object,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptAES(System.Object,System.String)"/>并转换为Base64字符串
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptAES(System.Object,System.String)">
+            <summary>
+            AES对称加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptAES``1(System.String,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptAES(System.Byte[],System.String)"/>
+            </summary>
+            <typeparam name="Tobject">对象类型</typeparam>
+            <param name="encryptContent">加密后的Base64字符串</param>
+            <param name="privateKey">加密的密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptAES(System.Byte[],System.String)">
+            <summary>
+            AES对称解密
+            </summary>
+            <param name="encryptBytes">要解密的二进制数据,如果是一个对象,该对象必须实现了<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的私钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptDESToString(System.Object,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptDES(System.Object,System.String)"/>并转换为Base64字符串
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptDES(System.Object,System.String)">
+            <summary>
+            DES对称加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptDES``1(System.String,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptDES(System.Byte[],System.String)"/>
+            </summary>
+            <typeparam name="Tobject">对象类型</typeparam>
+            <param name="encryptContent">要解密的数据,如果是一个对象,该对象必须实现了<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的私钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptDES(System.Byte[],System.String)">
+            <summary>
+            DES对称解密
+            </summary>
+            <param name="encryptBytes">要解密的二进制数据,如果是一个对象,该对象必须实现了<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">加密的私钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptMD5(System.Object)">
+            <summary>
+            MD5加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptSHA256(System.Object)">
+            <summary>
+            SHA256加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptSHA1(System.Object)">
+            <summary>
+            SHA1加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.GeneralRSAKey">
+            <summary>
+            生成一对随机的公钥和私钥
+            </summary>
+            <returns>
+            <see cref="F:System.ValueTuple`2.Item1"/>是私钥<br/><see cref="F:System.ValueTuple`2.Item2"/>是公钥
+            </returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptRSAToString(System.Object,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptRSA(System.Object,System.String)"/>并转换为Base64字符串
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="publicKey">RSA公钥(因为C#原生的只支持公钥加密私钥解密,就假装这是私钥好了)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptRSA(System.Object,System.String)">
+            <summary>
+            RSA非对称加密
+            </summary>
+            <param name="content">要加密的内容,如果是一个对象必须要实现<see cref="T:System.SerializableAttribute"/></param>
+            <param name="publicKey">RSA公钥(因为C#原生的只支持公钥加密私钥解密,就假装这是私钥好了)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptRSA``1(System.String,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptRSA(System.Byte[],System.String)"/>
+            </summary>
+            <typeparam name="Tobject">对象类型</typeparam>
+            <param name="encryptContent">要解密的数据,如果是一个对象,该对象必须实现了<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">RSA私钥(因为C#原生的只支持公钥加密私钥解密,就假装这是公钥好了)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.EncryptionUtil.DeEncryptRSA(System.Byte[],System.String)">
+            <summary>
+            RSA非对称解密
+            </summary>
+            <param name="encryptBytes">要解密的二进制数据,如果是一个对象,该对象必须实现了<see cref="T:System.SerializableAttribute"/></param>
+            <param name="privateKey">RSA私钥(因为C#原生的只支持公钥加密私钥解密,就假装这是公钥好了)</param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.IO.Logging.Logger">
             <summary>
             记录日志类
