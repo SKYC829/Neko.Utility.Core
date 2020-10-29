@@ -526,6 +526,18 @@
             是否输出到输出窗口<see cref="M:System.Diagnostics.Debug.Print(System.String)"/>
             </summary>
         </member>
+        <member name="P:Neko.Utility.Core.Configurations.LogConfiguration.WriteToEventLog">
+            <summary>
+            是否输出到Windows系统日志
+            <para>只在Windows系统下生效</para>
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.Configurations.LogConfiguration.NoLocalFile">
+            <summary>
+            是否不生成日志文件
+            <para>如果只希望输出到Windows系统日志的话</para>
+            </summary>
+        </member>
         <member name="M:Neko.Utility.Core.Configurations.LogConfiguration.GetConfiguration">
             <summary>
             获取配置信息的单例对象
@@ -1587,9 +1599,19 @@
             日志配置信息
             </summary>
         </member>
+        <member name="F:Neko.Utility.Core.IO.Logging.LogUtil._log">
+            <summary>
+            记录Windows系统日志
+            </summary>
+        </member>
         <member name="P:Neko.Utility.Core.IO.Logging.LogUtil.OnWriteLog">
             <summary>
             正在输出日志委托方法
+            </summary>
+        </member>
+        <member name="P:Neko.Utility.Core.IO.Logging.LogUtil.CanUseEventLog">
+            <summary>
+            是否允许输出到Windows的系统日志
             </summary>
         </member>
         <member name="M:Neko.Utility.Core.IO.Logging.LogUtil.StartLog">
