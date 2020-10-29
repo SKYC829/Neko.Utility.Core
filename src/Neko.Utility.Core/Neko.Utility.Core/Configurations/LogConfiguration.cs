@@ -43,12 +43,26 @@ namespace Neko.Utility.Core.Configurations
         /// </summary>
         public bool AddDebug { get; set; }
 
+        /// <summary>
+        /// 是否输出到Windows系统日志
+        /// <para>只在Windows系统下生效</para>
+        /// </summary>
+        public bool WriteToEventLog { get; set; }
+
+        /// <summary>
+        /// 是否不生成日志文件
+        /// <para>如果只希望输出到Windows系统日志的话</para>
+        /// </summary>
+        public bool NoLocalFile { get; set; }
+
         private LogConfiguration()
         {
             RecordMinimumInterval = 1;
             LogPath = "Temp/Log";
             LogFileName = string.Format("{0:yyyyMMdd}.log", DateTime.Today);
             LogLevel = LogLevel.Information;
+            WriteToEventLog = false;
+            NoLocalFile = false;
         }
 
         /// <summary>
