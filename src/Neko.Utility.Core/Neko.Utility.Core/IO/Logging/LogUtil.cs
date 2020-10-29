@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Threading;
 
@@ -32,9 +34,19 @@ namespace Neko.Utility.Core.IO.Logging
         private static LogConfiguration _logConfiguration;
 
         /// <summary>
+        /// 记录Windows系统日志
+        /// </summary>
+        private static EventLog _log;
+
+        /// <summary>
         /// 正在输出日志委托方法
         /// </summary>
         public static ParameterDelegateCode OnWriteLog { get; set; }
+
+        /// <summary>
+        /// 是否允许输出到Windows的系统日志
+        /// </summary>
+        public static bool CanUseEventLog { get { return RuntimeInformation.IsOSPlatform(OSPlatform.Windows); } }
 
         static LogUtil()
         {
@@ -48,6 +60,22 @@ namespace Neko.Utility.Core.IO.Logging
         /// </summary>
         private static void StartLog()
         {
+            if (CanUseEventLog)
+            {
+                if (!EventLog.SourceExists("Neko.Utility"))
+                {
+                    try
+                    {
+                        EventLog.CreateEventSource("Neko.Utility", AppDomain.CurrentDomain.FriendlyName);
+                    }
+                    catch (SecurityException)
+                    {
+                        throw;
+                    }
+                }
+                _log = new EventLog(AppDomain.CurrentDomain.FriendlyName);
+                _log.Source = "Neko.Utility";
+            }
             ThreadUtil.RunLoop(new IntervalInfo()
             {
                 Interval = 100,
@@ -130,13 +158,17 @@ namespace Neko.Utility.Core.IO.Logging
             {
                 return;
             }
-            string logFileFullName = string.Format("{0}/{1}", _logConfiguration.LogPath, _logConfiguration.LogFileName);
-            string logPath = Path.GetDirectoryName(logFileFullName);
-            if (!Directory.Exists(logPath))
+            StreamWriter writer = null;
+            if (!_logConfiguration.NoLocalFile)
             {
-                Directory.CreateDirectory(logPath);
+                string logFileFullName = string.Format("{0}/{1}", _logConfiguration.LogPath, _logConfiguration.LogFileName);
+                string logPath = Path.GetDirectoryName(logFileFullName);
+                if (!Directory.Exists(logPath))
+                {
+                    Directory.CreateDirectory(logPath);
+                }
+                writer = new StreamWriter(logFileFullName, true, Encoding.Default);
             }
-            StreamWriter writer = new StreamWriter(logFileFullName, true, Encoding.Default);
             do
             {
                 try
@@ -168,7 +200,7 @@ namespace Neko.Utility.Core.IO.Logging
                         {
                             logInfo.LogMessage = string.Format("{0}\r\n错误信息:{1}\r\n异常堆栈:{2}", logInfo.LogMessage, logInfo.InnerException.Message, logInfo.InnerException.StackTrace);
                         }
-                        string cacheKey = logInfo.LogMessage; //TODO:加密
+                        string cacheKey = EncryptionUtil.EncryptMD5(logInfo.LogMessage);
                         LogInfo cacheInfo = DictionaryUtil.Get<LogInfo>(_logCache, cacheKey);
                         if (cacheInfo == null)
                         {
@@ -199,9 +231,30 @@ namespace Neko.Utility.Core.IO.Logging
                     {
                         Debug.Print(logMessage);
                     }
-                    if(writer != null)
+                    if (writer != null)
                     {
                         writer.WriteLine(logMessage);
+                    }
+                    if (CanUseEventLog && _logConfiguration.WriteToEventLog)
+                    {
+                        EventLogEntryType logType = EventLogEntryType.Information;
+                        switch (logInfo.LogLevel)
+                        {
+                            case LogLevel.Warning:
+                                logType = EventLogEntryType.Warning;
+                                break;
+                            case LogLevel.Exception:
+                                logType = EventLogEntryType.Error;
+                                break;
+                            case LogLevel.Information:
+                            default:
+                                logType = EventLogEntryType.Information;
+                                break;
+                        }
+                        if (logInfo.LogLevel != LogLevel.Track)
+                        {
+                            _log.WriteEntry(logMessage, logType);
+                        }
                     }
                     OnWriteLog?.Invoke(logInfo.LogLevel, logMessage);
                 }
@@ -217,7 +270,7 @@ namespace Neko.Utility.Core.IO.Logging
                     }
                 }
             } while (true);
-            if(writer != null)
+            if (writer != null)
             {
                 writer.Close();
                 writer.Dispose();
