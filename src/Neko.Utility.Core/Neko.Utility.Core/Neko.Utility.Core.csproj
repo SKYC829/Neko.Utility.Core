@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Net\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 

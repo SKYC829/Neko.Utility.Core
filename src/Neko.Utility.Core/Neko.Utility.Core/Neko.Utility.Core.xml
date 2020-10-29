@@ -1661,6 +1661,280 @@
             </summary>
             <param name="logInfo">日志信息实体类</param>
         </member>
+        <member name="T:Neko.Utility.Core.IO.RegularUtil">
+            <summary>
+            正则帮助类
+            <para>封装了验证正则字符串的方法和从一个字符串内取出符合正则规则的字符串</para>
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.EMAIL">
+            <summary>
+            匹配邮箱地址的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.MAINLAND_CELLPHONE">
+            <summary>
+            中国大陆手机号的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.TAIWAN_CELLPHONE">
+            <summary>
+            中国台湾手机号的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.HONGKONG_CELLPHONE">
+            <summary>
+            中国香港手机号的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.MACAO_CELLPHONE">
+            <summary>
+            中国澳门手机号的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.IPADDRESS">
+            <summary>
+            IPV4的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.MAINLAND_IDCARD_18">
+            <summary>
+            中华人民共和国居民身份证二代身份证(18位)的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.MAINLAND_IDCARD_15">
+            <summary>
+            中华人民共和国居民身份证一代身份证(15位)的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.WEB_URL">
+            <summary>
+            网址的正则表达式
+            </summary>
+        </member>
+        <member name="F:Neko.Utility.Core.IO.RegularUtil.CHINESE_CHARACTER">
+            <summary>
+            中文字符
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyRegex(System.String,System.String)">
+            <summary>
+            校验一个字符串是否符合正则规范
+            </summary>
+            <param name="value">要校验的字符串</param>
+            <param name="regex">正则表达式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyEmail(System.String)">
+            <summary>
+            验证邮件地址
+            </summary>
+            <param name="emailAddress">邮件地址字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyPhone(System.String)">
+            <summary>
+            验证手机号
+            <para>支持中国大陆手机号、中国香港手机号、中国台湾手机号、中国澳门手机号</para>
+            </summary>
+            <param name="phoneNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyIPv4(System.String)">
+            <summary>
+            验证IPv4地址
+            </summary>
+            <param name="ipAddress">IPv4地址字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyIDCard(System.String)">
+            <summary>
+            验证身份证号
+            <para>支持中华人民共和国居民身份证的一代身份证(15位)、
+            二代身份证(18位)</para>
+            </summary>
+            <param name="idCard">身份证号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.VerifyWebUrl(System.String)">
+            <summary>
+            验证网址
+            <para>可以识别的协议:https、http、ftp、rtsp、mms</para>
+            </summary>
+            <param name="webUrl">网址</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.Get(System.String,System.String)">
+            <summary>
+            获取字符串中符合正则规则的第一个字符串
+            </summary>
+            <param name="value">要校验的字符串</param>
+            <param name="regex">正则表达式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.RegularUtil.GetAll(System.String,System.String)">
+            <summary>
+            取出字符串中符合正则规则的所有字符串
+            </summary>
+            <param name="value"></param>
+            <param name="regex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Neko.Utility.Core.IO.XmlUtil">
+            <summary>
+            Xml帮助类
+            <para>可以快速获取一个<see cref="T:System.Xml.XmlElement"/>或者快速从<see cref="T:System.Xml.XmlElement"/>中获取<see cref="T:System.Xml.XmlAttribute"/>的值</para>
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.IsNullOrEmpty(System.Xml.XmlNodeList)">
+            <summary>
+            判断一个<see cref="T:System.Xml.XmlNodeList"/>是否为空
+            </summary>
+            <param name="nodeList">xml节点的集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetElement(System.Xml.XmlNode,System.String,System.String)">
+            <summary>
+            根据特性获取一个Xml节点
+            </summary>
+            <param name="xmlNode">xml的根节点</param>
+            <param name="attributeName">特性的名称</param>
+            <param name="attributeValue">特性的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetElementByTag(System.Xml.XmlNode,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.GetElementsByTag(System.Xml.XmlNode,System.String[])"/>
+            </summary>
+            <param name="xmlNode">xml的根节点</param>
+            <param name="tag">xml的标签</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetElementsByTag(System.Xml.XmlNode,System.String[])">
+            <summary>
+            根据xml标签获取xml节点
+            </summary>
+            <param name="xmlNode">xml的根节点</param>
+            <param name="tags">xml的标签</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.Get(System.Xml.XmlElement,System.String)">
+            <summary>
+            获取一个Xml元素上一个特性的值
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.Set(System.Xml.XmlElement,System.String,System.Object)">
+            <summary>
+            设置一个Xml元素上一个特性的值
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <param name="attributeValue">要设置的值</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get(System.Xml.XmlElement,System.String)"/>并转换为指定类型
+            </summary>
+            <typeparam name="Tvalue">要转换的类型</typeparam>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetBool(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)"/>
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetInt(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)"/>
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetDecimal(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)"/>
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetDouble(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)"/>
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.XmlUtil.GetFloat(System.Xml.XmlElement,System.String)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.XmlUtil.Get``1(System.Xml.XmlElement,System.String)"/>
+            </summary>
+            <param name="xmlElement">Xml元素</param>
+            <param name="attributeName">特性的名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:Neko.Utility.Core.Net.NetUtil">
+            <summary>
+            网络相关的帮助类
+            <para>可以获取本机的IP、查询一个站点的延迟、发送基于smtp协议的邮件</para>
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.GetIP(System.Boolean)">
+            <summary>
+            获取本机IP
+            </summary>
+            <param name="internetIp">获取公网IP(true)、获取局域网IP(false)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.GetLocalIP">
+            <summary>
+            获取本机IP(IPv4)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.GetLocalIPSafe">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Net.NetUtil.GetLocalIP"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.GetNetIP">
+            <summary>
+            获取本机公网IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.Ping">
+            <summary>
+            获取本地计算机与公网的延迟
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.Ping(System.String)">
+            <summary>
+            获取本地计算机与一个域名的延迟
+            </summary>
+            <param name="host">域名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.Ping(System.String,System.Int32)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Net.NetUtil.Ping(System.String)"/>
+            </summary>
+            <param name="host">域名</param>
+            <param name="timeout">超时时间(秒)</param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.Threading.IntervalInfo">
             <summary>
             线程信息的实体类对象
