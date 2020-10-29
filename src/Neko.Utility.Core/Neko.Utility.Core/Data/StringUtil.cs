@@ -278,7 +278,7 @@ namespace Neko.Utility.Core.Data
             {
                 if (!IsNullOrEmpty(value))
                 {
-                    result = (Tvalue)InternalGet(typeof(Tvalue), value);
+                    result = (Tvalue)Convert.ChangeType(value, typeof(Tvalue));
                 }
             }
             catch (Exception ex)
