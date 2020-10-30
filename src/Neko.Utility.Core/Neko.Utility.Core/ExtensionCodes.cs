@@ -1,0 +1,208 @@
+﻿using Neko.Utility.Core.Common;
+using Neko.Utility.Core.Data;
+using Neko.Utility.Core.IO;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+
+namespace Neko.Utility.Core
+{
+    /// <summary>
+    /// 封装的扩展方法
+    /// </summary>
+    public static class ExtensionCodes
+    {
+        /// <summary>
+        /// <inheritdoc cref="StringUtil.GetTimeStamp(DateTime)"/>
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static string GetTimeStamp(this DateTime dateTime)
+        {
+            return StringUtil.GetTimeStamp(dateTime);
+        }
+
+        /// <summary>
+        /// 将字符串转换为时间或将时间戳转换为时间
+        /// </summary>
+        /// <param name="datetimeString"></param>
+        /// <returns></returns>
+        public static DateTime? GetDateTime(this string datetimeString)
+        {
+            DateTime? result = null;
+            try
+            {
+                //尝试转换时间戳
+                result = StringUtil.GetTimeStamp(datetimeString);
+            }
+            catch
+            {
+                result = StringUtil.GetDateTime(datetimeString);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="RowUtil.AddColumn(DataTable, string[])"/>
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="columns">要添加的列</param>
+        public static void AddColumn(this DataTable dataTable,params string[] columns)
+        {
+            RowUtil.AddColumn(dataTable, columns);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="RowUtil.AddColumn(DataTable, string[])"/>
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="entityType">要添加到<see cref="DataTable"/>的对象的类型</param>
+        public static void AddColumn(this DataTable dataTable,Type entityType)
+        {
+            if(dataTable == null)
+            {
+                return;
+            }
+
+            foreach (PropertyInfo property in entityType.GetProperties())
+            {
+                RowUtil.AddColumn(dataTable, property.Name);
+            }
+
+            foreach (FieldInfo field in entityType.GetFields())
+            {
+                string columnName = field.Name;
+                if (dataTable.Columns.Contains(columnName))
+                {
+                    int repeatCount = dataTable.Columns.Cast<DataColumn>().Count(p => p.ColumnName.ToLower().Equals(columnName));
+                    columnName = string.Format("{0}_{1}", field.Name, repeatCount);
+                    RowUtil.AddColumn(dataTable, columnName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 克隆一个<see cref="DataRow"/>
+        /// </summary>
+        /// <param name="dataRow"></param>
+        /// <returns></returns>
+        public static DataRow Clone(this DataRow dataRow)
+        {
+            if(dataRow == null)
+            {
+                return null;
+            }
+            DataRow result = dataRow.Table.NewRow();
+            result.ItemArray = dataRow.ItemArray;
+            return result;
+        }
+
+        /// <summary>
+        /// 将一个<see cref="DataRow"/>复制到一个<see cref="DataTable"/>中
+        /// </summary>
+        /// <param name="dataRow"></param>
+        /// <param name="dataTable"><see cref="DataTable"/></param>
+        public static void Copy(this DataRow dataRow,DataTable dataTable)
+        {
+            if(dataRow == null)
+            {
+                return;
+            }
+            if(dataTable == null)
+            {
+                dataTable = new DataTable();
+            }
+            RowUtil.AddColumn(dataTable, dataRow.Table.Columns.Cast<DataColumn>().ToArray());
+            DataRow templateRow = dataTable.NewRow();
+            templateRow.ItemArray = dataRow.ItemArray;
+            dataTable.Rows.Add(templateRow);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="SerializeUtil.ToBinary(object)"/>
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static byte[] ObjectToBinary(this object content)
+        {
+            return SerializeUtil.ToBinary(content);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="SerializeUtil.FromBinary{Tobject}(byte[])"/>
+        /// </summary>
+        /// <typeparam name="Tvalue"></typeparam>
+        /// <param name="binaryBytes">二进制数组</param>
+        /// <returns></returns>
+        public static Tvalue BinaryToObject<Tvalue>(this byte[] binaryBytes)
+        {
+            return SerializeUtil.FromBinary<Tvalue>(binaryBytes);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="EncryptionUtil.EncryptMD5(object)"/>
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string MD5(this object content)
+        {
+            return EncryptionUtil.EncryptMD5(content);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="EncryptionUtil.EncryptSHA1(object)"/>
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string SHA1(this object content)
+        {
+            return EncryptionUtil.EncryptSHA1(content);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="EncryptionUtil.EncryptSHA256(object)"/>
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string SHA256(this object content)
+        {
+            return EncryptionUtil.EncryptSHA256(content);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="CompressUtil.CompressBytes(byte[])"/>
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static byte[] Compress(this byte[] bytes)
+        {
+            return CompressUtil.CompressBytes(bytes);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="CompressUtil.DeCompressBytes(byte[])"/>
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static byte[] DeCompress(this byte[] bytes)
+        {
+            return CompressUtil.DeCompressBytes(bytes);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="DictionaryUtil.SortDictionary{Tkey, Tvalue}(IDictionary{Tkey, Tvalue}, bool)"/>
+        /// </summary>
+        /// <typeparam name="TKey">键值对的键</typeparam>
+        /// <typeparam name="TValue">键值对的值</typeparam>
+        /// <param name="dictionary">要排序的键值对</param>
+        /// <param name="sortByValue">是否根据值进行排序<para>为true时按照Value排序,否则按照Key排序</para></param>
+        /// <returns></returns>
+        public static IList<KeyValuePair<TKey,TValue>> Sort<TKey,TValue>(this IDictionary<TKey,TValue> dictionary,bool sortByValue = true) where TValue : struct
+        {
+            return DictionaryUtil.SortDictionary<TKey, TValue>(dictionary, sortByValue);
+        }
+    }
+}
