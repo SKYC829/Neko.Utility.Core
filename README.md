@@ -173,10 +173,10 @@ foreach (int result in results)
 > 2
 ```
 你可以使用以下方法实现一些抽奖场景的随机数生成操作
-<small>参数 items为随机抽取对象仓储(可以理解为奖池)</small>
-<small>参数 count为随机抽取的次数(比如幸运十连抽)</small>
-<small>参数 odds为抽取对象仓储(奖池)中每个对象的权重(从0-1，0永远不会被抽中,如果权重都是0的话除外)</small>
-<small>参数 oddsMap为绑定好权重的抽取对象仓储(奖池)</small>
+- <small>参数 items为随机抽取对象仓储(可以理解为奖池)</small>
+- <small>参数 count为随机抽取的次数(比如幸运十连抽)</small>
+- <small>参数 odds为抽取对象仓储(奖池)中每个对象的权重(从0-1，0永远不会被抽中,如果权重都是0的话除外)</small>
+- <small>参数 oddsMap为绑定好权重的抽取对象仓储(奖池)</small>
 ```C#
 public static Titem[] Draw<Titem>(System.Collections.Generic.IList<Titem> items, int count)
 public static Titem[] Draw<Titem>(System.Collections.Generic.IList<Titem> items, System.Collections.Generic.IList<double> odds, int count)
