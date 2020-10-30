@@ -9,7 +9,7 @@
 - <a id="Common">Common</a>
     1. [调用代码帮助类](#InvokeCode)
     2. [二维码/条形码帮助类](#QrCodeUtil)
-       - [生成随机数配置类](#GenerateCodeConfiguration)
+       - [生成二维码配置类](#GenerateCodeConfiguration)
     3. [随机数帮助类](#RandomUtil)
     4. [反射帮助类](#ReferenceUtil)
     5. [序列化帮助类](#SerializeUtil)
