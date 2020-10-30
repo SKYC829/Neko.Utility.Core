@@ -1,10 +1,10 @@
-# <a id="Neko.Utility">Neko.Utility.Core</a>
+## <a id="Neko.Utility">Neko.Utility.Core</a>
 
  A Utility project for netcore
 
 -----
 
-[目录](#Neko.Utility)
+[目录]
 
 - <a id="Common">Common</a>
     1. [调用代码帮助类](#InvokeCode)
@@ -40,3 +40,67 @@
 	3. [CompressDelegateCode](#CompressDelegateCode)
 - <a id="Extension">扩展方法</a>
 	1. [扩展方法](#ExtensionCodes)
+------
+<a id="InvokeCode">调用代码帮助类</a>
+#### 命名空间: Neko.Utility.Core.Common
+该类封装了一些对于委托方法流水线式执行的方法。==(该类需要先初始化(new)才能使用)==
+以下三个方法可以将一个无参的委托方法添加到执行流水线堆栈(CodeStacks)中。
+
+```C#
+public void Add(Neko.Utility.Core.EmptyDelegateCode executeCode)
+public void Insert(int index, Neko.Utility.Core.EmptyDelegateCode executeCode)
+public void Shift(Neko.Utility.Core.EmptyDelegateCode executeCode)
+```
+若要将一个方法移出执行流水线堆栈,可以使用下面的方法。
+```C#
+public void RemoveAt(int index)
+public void Remove(Neko.Utility.Core.EmptyDelegateCode executeCode)
+```
+使用以下方法将会开始从执行流水线堆栈(CodeStacks)顶部向下顺序执行委托方法直到标记中断或堆栈中所有委托方法已执行完成
+```C#
+public void Execute() //同步执行
+public Task ExecuteAsync([System.Threading.CancellationToken cancelToken = null]) //异步执行
+```
+使用以下方法可以仅执行堆栈中的第一个委托方法
+```C#
+public void ExecuteNext() //同步执行
+public Task ExecuteNextAsync([System.Threading.CancellationToken cancelToken = null]) //异步执行
+```
+
+### 使用示例
+```C#
+static Neko.Utility.Core.Common.InvokeCode ic = new Neko.Utility.Core.Common.InvokeCode();
+
+static void AddCode()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        ic.Add(delegate ()
+        {
+            Console.WriteLine("我是第{0}个方法哦", i);
+            Thread.Sleep(1000);
+        });
+    }
+}
+        
+static async void RunCode()
+{
+    Task cancelTask = Task.Run(() =>{
+        while(!Console.ReadKey().Key.Equals(ConsoleKey.Enter))
+        {
+            Console.WriteLine("Error Key");
+        }
+        Console.WriteLine("Cancel");
+        _cancelToken.Cancel();
+    });
+    await ic.ExecuteAsync(_cancelToken.Token);
+}
+```
+#### 输出结果
+``` Shell
+> 我是第0个方法哦
+> 我是第1个方法哦
+> 我是第2个方法哦
+> 我是第3个方法哦
+> 我是第4个方法哦
+```
