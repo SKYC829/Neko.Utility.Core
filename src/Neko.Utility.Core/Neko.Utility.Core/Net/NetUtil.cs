@@ -2,13 +2,11 @@
 using Neko.Utility.Core.IO;
 using Neko.Utility.Core.IO.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Neko.Utility.Core.Net
 {
@@ -63,7 +61,7 @@ namespace Neko.Utility.Core.Net
         /// <returns></returns>
         private static string GetLocalIPSafe()
         {
-            string result = Dns.GetHostEntry(Dns.GetHostName()).AddressList.Where(p => p.AddressFamily == AddressFamily.InterNetwork).Select(p=>p.ToString()).FirstOrDefault();
+            string result = Dns.GetHostEntry(Dns.GetHostName()).AddressList.Where(p => p.AddressFamily == AddressFamily.InterNetwork).Select(p => p.ToString()).FirstOrDefault();
             return result;
         }
 
@@ -99,7 +97,7 @@ namespace Neko.Utility.Core.Net
         /// <returns></returns>
         public static int Ping(string host)
         {
-            PingReply pingReply = Ping(host, 30);           
+            PingReply pingReply = Ping(host, 30);
             return StringUtil.GetInt(pingReply.Status == IPStatus.Success ? pingReply.RoundtripTime : int.MaxValue);
         }
 
@@ -109,7 +107,7 @@ namespace Neko.Utility.Core.Net
         /// <param name="host">域名</param>
         /// <param name="timeout">超时时间(秒)</param>
         /// <returns></returns>
-        public static PingReply Ping(string host,int timeout)
+        public static PingReply Ping(string host, int timeout)
         {
             PingReply result = new Ping().Send("127.0.0.1");
             try
