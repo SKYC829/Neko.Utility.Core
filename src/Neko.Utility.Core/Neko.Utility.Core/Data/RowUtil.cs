@@ -191,6 +191,10 @@ namespace Neko.Utility.Core.Data
         /// <param name="columnNames">要添加的列名(可以是多个)</param>
         public static void AddColumn(DataTable dataTable, params string[] columnNames)
         {
+            if(columnNames == null)
+            {
+                return;
+            }
             DataColumn[] columns = new DataColumn[columnNames.Length];
             for (int i = 0; i < columnNames.Length; i++)
             {
@@ -207,7 +211,18 @@ namespace Neko.Utility.Core.Data
         /// <param name="dataColumns">要添加的列名(可以是多个)</param>
         public static void AddColumn(DataTable dataTable, params DataColumn[] dataColumns)
         {
-            dataTable.Columns.AddRange(dataColumns);
+            if(dataTable == null || dataColumns == null)
+            {
+                return;
+            }
+            foreach (DataColumn column in dataColumns)
+            {
+                if (dataTable.Columns.Contains(column.ColumnName))
+                {
+                    continue;
+                }
+                dataTable.Columns.Add(column);
+            }
         }
     }
 }
