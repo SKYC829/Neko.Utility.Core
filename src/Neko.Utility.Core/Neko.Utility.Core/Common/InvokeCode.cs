@@ -33,7 +33,7 @@ namespace Neko.Utility.Core.Common
 
         public InvokeCode()
         {
-            if(_codeQueue == null)
+            if (_codeQueue == null)
             {
                 _codeQueue = new List<EmptyDelegateCode>();
             }
@@ -65,7 +65,7 @@ namespace Neko.Utility.Core.Common
         /// </summary>
         /// <param name="index">位置索引</param>
         /// <param name="executeCode">委托方法</param>
-        public void Insert(int index,EmptyDelegateCode executeCode)
+        public void Insert(int index, EmptyDelegateCode executeCode)
         {
             lock (_codeQueue)
             {
@@ -158,7 +158,7 @@ namespace Neko.Utility.Core.Common
         /// <returns></returns>
         public async Task ExecuteNextAsync(CancellationToken cancelToken = default)
         {
-            if(_codeQueue.Count == 0)
+            if (_codeQueue.Count == 0)
             {
                 return;
             }
@@ -167,7 +167,7 @@ namespace Neko.Utility.Core.Common
             {
                 executeCode = _codeQueue.FirstOrDefault();
             }
-            if(executeCode == null)
+            if (executeCode == null)
             {
                 return;
             }
