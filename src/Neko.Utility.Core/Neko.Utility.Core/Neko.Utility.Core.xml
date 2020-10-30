@@ -1153,6 +1153,89 @@
             <param name="totalSize">正在压缩/解压的文件总大小</param>
             <param name="isFolder">当前是否是文件夹</param>
         </member>
+        <member name="T:Neko.Utility.Core.ExtensionCodes">
+            <summary>
+            封装的扩展方法
+            </summary>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.GetTimeStamp(System.DateTime)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Data.StringUtil.GetTimeStamp(System.DateTime)"/>
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.GetDateTime(System.String)">
+            <summary>
+            将字符串转换为时间或将时间戳转换为时间
+            </summary>
+            <param name="datetimeString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.AddColumn(System.Data.DataTable,System.String[])">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Data.RowUtil.AddColumn(System.Data.DataTable,System.String[])"/>
+            </summary>
+            <param name="dataTable"></param>
+            <param name="columns">要添加的列</param>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.AddColumn(System.Data.DataTable,System.Type)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Data.RowUtil.AddColumn(System.Data.DataTable,System.String[])"/>
+            </summary>
+            <param name="dataTable"></param>
+            <param name="entityType">要添加到<see cref="T:System.Data.DataTable"/>的对象的类型</param>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.Clone(System.Data.DataRow)">
+            <summary>
+            克隆一个<see cref="T:System.Data.DataRow"/>
+            </summary>
+            <param name="dataRow"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.Copy(System.Data.DataRow,System.Data.DataTable)">
+            <summary>
+            将一个<see cref="T:System.Data.DataRow"/>复制到一个<see cref="T:System.Data.DataTable"/>中
+            </summary>
+            <param name="dataRow"></param>
+            <param name="dataTable"><see cref="T:System.Data.DataTable"/></param>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.ObjectToBinary(System.Object)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Common.SerializeUtil.ToBinary(System.Object)"/>
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.BinaryToObject``1(System.Byte[])">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Common.SerializeUtil.FromBinary``1(System.Byte[])"/>
+            </summary>
+            <typeparam name="Tvalue"></typeparam>
+            <param name="binaryBytes">二进制数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.MD5(System.Object)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptMD5(System.Object)"/>
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.SHA1(System.Object)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptSHA1(System.Object)"/>
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.SHA256(System.Object)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.EncryptionUtil.EncryptSHA256(System.Object)"/>
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.IO.CompressUtil">
             <summary>
             压缩文件帮助类
@@ -1231,6 +1314,13 @@
             <param name="zipFile">压缩文件名称</param>
             <param name="passCode">压缩文件密码</param>
         </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.CompressBytes(System.Byte[])">
+            <summary>
+            压缩一个字节数组
+            </summary>
+            <param name="bytes">要压缩的字节数组</param>
+            <returns></returns>
+        </member>
         <member name="M:Neko.Utility.Core.IO.CompressUtil.VerifyFileName(System.String)">
             <summary>
             验证文件名,使文件名已.zip结尾
@@ -1259,6 +1349,13 @@
             <param name="zipFile">zip文件路径</param>
             <param name="unzipPath">要解压到的路径</param>
             <param name="passCode">压缩文件密码</param>
+        </member>
+        <member name="M:Neko.Utility.Core.IO.CompressUtil.DeCompressBytes(System.Byte[])">
+            <summary>
+            解<inheritdoc cref="M:Neko.Utility.Core.IO.CompressUtil.CompressBytes(System.Byte[])"/>
+            </summary>
+            <param name="bytes">要解压缩的字节数组</param>
+            <returns></returns>
         </member>
         <member name="T:Neko.Utility.Core.IO.EncryptionUtil">
             <summary>
@@ -1975,10 +2072,6 @@
         <member name="M:Neko.Utility.Core.Net.NetUtil.SendEmailAsync(System.Net.Mail.MailMessage,System.String,System.String,System.Boolean)">
             <summary>
             异步发送邮件
-            <para>警告:<br/>
-            <paramref name="proxy"/>通常只需要填写协议，如smtp | pop3，如果是企业邮箱则会不起作用
-            </para>
-            <para>当发信服务器是企业邮箱时，建议填写完整的协议，如smtp.exmail.qq.com</para>
             </summary>
             <param name="mailMessage"><see cref="T:System.Net.Mail.MailMessage"/>对象，包含了邮件信息</param>
             <param name="password">发信人密码</param>
