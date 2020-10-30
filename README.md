@@ -42,7 +42,7 @@
 	1. [扩展方法](#ExtensionCodes)
 ------
 ### <a id="InvokeCode">调用代码帮助类</a>
-#### 命名空间: Neko.Utility.Core.Common
+#### 命名空间: Neko.Utility.Core.Common.InvokeCode
 该类封装了一些对于委托方法流水线式执行的方法。<strong>(该类需要先初始化(new)才能使用)</strong>
 以下三个方法可以将一个无参的委托方法添加到执行流水线堆栈(CodeStacks)中。
 
@@ -106,12 +106,12 @@ static async void RunCode()
 ```
 ------
 ### <a id="QrCodeUtil">二维码帮助类</a>
-#### 命名空间: Neko.Utility.Core.Common
+#### 命名空间: Neko.Utility.Core.Common.QrCodeUtil
 该类封装了一些对于二维码、条形码的生成，读取方法
 
 ------
 #### <a id="GenerateCodeConfiguration">生成二维码配置信息</a>
-#### 命名空间: Neko.Utility.Core.Common
+#### 命名空间: Neko.Utility.Core.Configurations.GenerateCodeConfiguration
 该配置文件设置了一些默认的二维码/条形码生成参数，可以用以下方法属性获取默认参数
 ```C#
 public static Neko.Utility.Core.Configurations.GenerateCodeConfiguration BarCodeDefault { get; } //条形码的默认参数
@@ -141,5 +141,79 @@ public static Bitmap GenerateQrCode(string content, System.Drawing.Bitmap logo, 
 ```C#
 public static System.Drawing.Bitmap DrawCodeLogo(System.Drawing.Bitmap codeBitmap, int[] matrixRectangle, System.Drawing.Bitmap codeLogo, Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration)
 ```
+### 使用示例
 #### 输出结果
 <small>抱歉我懒得上传图片</small>
+
+------
+### <a id="RandomUtil">随机数帮助类</a>
+#### 命名空间:Neko.Utility.Core.Common.RandomUtil
+该类封装了一些获取随机数的快速操作
+你可以用以下方法快速的生成一组随机的Int数组
+<small>参数count可以控制生成的数组的数量</small>
+<small>参数canRepeat可以控制是否允许生成重复的数字</small>
+```C#
+public static int[] Next(int count, [bool canRepeat = False])
+public static int[] Next(System.Random random, int count, [bool canRepeat = False])
+```
+### 使用示例
+```C#
+int[] results = Neko.Utility.Core.Common.RandomUtil.Next(5);
+foreach (int result in results)
+{
+    Console.WriteLine(result);
+}
+```
+#### 输出结果
+```Shell
+> 1
+> 5
+> 5
+> 6
+> 2
+```
+你可以使用以下方法实现一些抽奖场景的随机数生成操作
+<small>参数 items为随机抽取对象仓储(可以理解为奖池)</small>
+<small>参数 count为随机抽取的次数(比如幸运十连抽)</small>
+<small>参数 odds为抽取对象仓储(奖池)中每个对象的权重(从0-1，0永远不会被抽中,如果权重都是0的话除外)</small>
+<small>参数 oddsMap为绑定好权重的抽取对象仓储(奖池)</small>
+```C#
+public static Titem[] Draw<Titem>(System.Collections.Generic.IList<Titem> items, int count)
+public static Titem[] Draw<Titem>(System.Collections.Generic.IList<Titem> items, System.Collections.Generic.IList<double> odds, int count)
+public static Titem[] Draw<Titem>(System.Collections.Generic.IDictionary<Titem, double> oddsMap, int count)
+```
+### 使用示例
+```C#
+ List<string> items = new List<string>()
+ {
+     "圣剑",
+     "高斯光剑",
+     "沼跃鱼",
+     "青钢剑",
+     "黄金胖次",
+     "以太斗篷"
+ };
+ List<double> itemsOdds = new List<double>()
+ {
+     0.3d,
+     0.2d,
+     0.6d,
+     0.9d,
+     0.1d,
+     0.4d
+ };
+ var results = Neko.Utility.Core.Common.RandomUtil.Draw<string>(items, itemsOdds, 2);
+foreach (var result in results)
+{
+    Console.WriteLine(result);
+}
+```
+#### 输出结果
+```Shell
+> 以太斗篷
+> 青钢剑
+```
+```Shell
+> 以太斗篷
+> 沼跃鱼
+```
