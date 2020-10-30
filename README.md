@@ -210,10 +210,12 @@ foreach (var result in results)
 ```
 #### 输出结果
 ```Shell
+> 开箱结果1:
 > 以太斗篷
 > 青钢剑
 ```
 ```Shell
+> 开箱结果2:
 > 以太斗篷
 > 沼跃鱼
 ```
