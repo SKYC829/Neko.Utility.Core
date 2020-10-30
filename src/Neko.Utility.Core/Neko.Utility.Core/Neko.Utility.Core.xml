@@ -1935,6 +1935,57 @@
             <param name="timeout">超时时间(秒)</param>
             <returns></returns>
         </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.CreateMailMessage(System.String,System.String)">
+            <summary>
+            创建一个<see cref="T:System.Net.Mail.MailMessage"/>对象
+            </summary>
+            <param name="senderAddress">发信人地址</param>
+            <param name="title">邮件标题</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.AddReceiver(System.Net.Mail.MailMessage,System.String[])">
+            <summary>
+            添加收信人
+            </summary>
+            <param name="mailMessage">要添加收信人的<see cref="T:System.Net.Mail.MailMessage"/>对象</param>
+            <param name="receiveAddress">收信人地址</param>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.AppendMailBody(System.Net.Mail.MailMessage,System.String,System.Object[])">
+            <summary>
+            添加邮件正文内容
+            </summary>
+            <param name="mailMessage">要添加正文的<see cref="T:System.Net.Mail.MailMessage"/>对象</param>
+            <param name="content">邮件内容</param>
+            <param name="args">邮件内容参数</param>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.AddAttachment(System.Net.Mail.MailMessage,System.String[])">
+            <summary>
+            添加附件
+            </summary>
+            <param name="mailMessage">要添加附件的的<see cref="T:System.Net.Mail.MailMessage"/>对象</param>
+            <param name="filePath">附件列表</param>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.AddAttachment(System.Net.Mail.MailMessage,System.IO.FileInfo)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Net.NetUtil.AddAttachment(System.Net.Mail.MailMessage,System.String[])"/>
+            </summary>
+            <param name="mailMessage">要添加附件的的<see cref="T:System.Net.Mail.MailMessage"/>对象</param>
+            <param name="file">附件文件</param>
+        </member>
+        <member name="M:Neko.Utility.Core.Net.NetUtil.SendEmailAsync(System.Net.Mail.MailMessage,System.String,System.String,System.Boolean)">
+            <summary>
+            异步发送邮件
+            <para>警告:<br/>
+            <paramref name="proxy"/>通常只需要填写协议，如smtp | pop3，如果是企业邮箱则会不起作用
+            </para>
+            <para>当发信服务器是企业邮箱时，建议填写完整的协议，如smtp.exmail.qq.com</para>
+            </summary>
+            <param name="mailMessage"><see cref="T:System.Net.Mail.MailMessage"/>对象，包含了邮件信息</param>
+            <param name="password">发信人密码</param>
+            <param name="proxy">邮件服务器协议（通常是smtp、pop3）</param>
+            <param name="useSsl">是否要求使用Ssl</param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.Threading.IntervalInfo">
             <summary>
             线程信息的实体类对象
