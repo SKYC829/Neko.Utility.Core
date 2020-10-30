@@ -41,7 +41,7 @@
 - <a id="Extension">扩展方法</a>
 	1. [扩展方法](#ExtensionCodes)
 ------
-<a id="InvokeCode">调用代码帮助类</a>
+### <a id="InvokeCode">调用代码帮助类</a>
 #### 命名空间: Neko.Utility.Core.Common
 该类封装了一些对于委托方法流水线式执行的方法。<strong>(该类需要先初始化(new)才能使用)</strong>
 以下三个方法可以将一个无参的委托方法添加到执行流水线堆栈(CodeStacks)中。
@@ -104,3 +104,42 @@ static async void RunCode()
 > 我是第3个方法哦
 > 我是第4个方法哦
 ```
+------
+### <a id="QrCodeUtil">二维码帮助类</a>
+#### 命名空间: Neko.Utility.Core.Common
+该类封装了一些对于二维码、条形码的生成，读取方法
+
+------
+#### <a id="GenerateCodeConfiguration">生成二维码配置信息</a>
+#### 命名空间: Neko.Utility.Core.Common
+该配置文件设置了一些默认的二维码/条形码生成参数，可以用以下方法属性获取默认参数
+```C#
+public static Neko.Utility.Core.Configurations.GenerateCodeConfiguration BarCodeDefault { get; } //条形码的默认参数
+public static Neko.Utility.Core.Configurations.GenerateCodeConfiguration QrCodeDefault { get; } //二维码的默认参数
+```
+------
+以下方法可以生成一个条形码（一维码）
+<small>当参数configuration为空时，将会使用[默认的条形码生成参数](#GenerateCodeConfiguration)</small>
+```C#
+public static Bitmap GenerateBarCode(string content, [Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration = null])
+```
+以下方法可以生成一个二维码
+- <small>当参数configuration为空时，将会使用[默认的二维码生成参数](#GenerateCodeConfiguration)</small>
+- <small>当参数logoPath或参数logo为空时，将不会为二维码绘制logo</small>
+```C#
+public static Bitmap GenerateQrCode(string content, [Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration = null])
+public static Bitmap GenerateQrCode(string content, string logoPath, [Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration = null])
+public static Bitmap GenerateQrCode(string content, System.Drawing.Bitmap logo, [Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration = null])
+```
+如果生成二维码后又想要在二维码上绘制logo，可以使用以下方法
+<strong>参数matrixRectangle为一个矩阵，数据含义如下</strong>
+- matrixRectangle[0] : logo距二维码左边距
+- matrixRectangle[1] : logo距二维码上边距
+- matrixRectangle[2] : 二维码的宽 (这里用来限制logo的最小宽度，默认值为三分之一)
+- matrixRectangle[3] : 二维码的高 (这里用来限制logo的最小高度，默认值为三分之一)
+<strong>如果参数configuration为空将不会绘制logo，直接返回原二维码</strong>
+```C#
+public static System.Drawing.Bitmap DrawCodeLogo(System.Drawing.Bitmap codeBitmap, int[] matrixRectangle, System.Drawing.Bitmap codeLogo, Neko.Utility.Core.Configurations.GenerateCodeConfiguration configuration)
+```
+#### 输出结果
+<small>抱歉我懒得上传图片</small>
