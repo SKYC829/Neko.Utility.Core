@@ -248,7 +248,27 @@ namespace Neko.Utility.Core.Data
         /// <returns></returns>
         public static DateTime? GetDateTime(object value)
         {
-            return InternalGet<DateTime?>(value);
+            DateTime? result = null;
+            if (IsNullOrEmpty(value))
+            {
+                return result;
+            }
+            if(value is DateTime || value is DateTime?)
+            {
+                result = (DateTime)value;
+            }
+            if(result == null)
+            {
+                string valueString = GetString(value);
+                if (!IsNullOrEmpty(valueString))
+                {
+                    if(DateTime.TryParse(valueString,out DateTime parseResult))
+                    {
+                        result = parseResult;
+                    }
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -278,7 +298,14 @@ namespace Neko.Utility.Core.Data
             {
                 if (!IsNullOrEmpty(value))
                 {
-                    result = (Tvalue)Convert.ChangeType(value, typeof(Tvalue));
+                    if (value.GetType().GetInterface(nameof(IConvertible)) != null)
+                    {
+                        result = (Tvalue)Convert.ChangeType(value, typeof(Tvalue));
+                    }
+                    else
+                    {
+                        result = (Tvalue)value;
+                    }
                 }
             }
             catch (Exception ex)
