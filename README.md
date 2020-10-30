@@ -219,3 +219,90 @@ foreach (var result in results)
 > 以太斗篷
 > 沼跃鱼
 ```
+------
+### <a id="ReferenceUtil">反射帮助类</a>
+#### 命名空间:Neko.Utility.Core.Common.ReferenceUtil
+你可以通过以下方法快速的加载程序集
+```C#
+public static System.Reflection.Assembly GetDefaultAssembly() //获取当前程序集
+public static System.Reflection.Assembly GetAssembly(string assemblyName) //通过assemblyName自动判断是从文件加载程序集还是直接获取程序集
+public static System.Reflection.Assembly GetAssemblyByName(string assemblyName) //通过名称获取程序集
+public static System.Reflection.Assembly GetAssemblyByDll(string dllName) //从Dll文件加载程序集
+```
+你也可以用以下方法快速的从程序集中获取类型
+```C#
+public static System.Type GetType(string typeName)
+public static System.Type GetType(System.Reflection.Assembly assembly, string typeName)
+```
+你还可以通过以下方法实例化类型对象
+- <small>这两个方法都是通过构造函数来实例化对象，从某种意义上来说类似于可依赖注入的实例化</small>
+```C#
+public static object Instance(string typeName, params object[] constructParams)
+public static Ttype Instance<Ttype>(string typeName, params object[] constructParams)
+```
+### 使用示例
+#### 输出结果
+------
+### <a id="SerializeUtil">序列化帮助类</a>
+#### 命名空间:Neko.Utility.Core.Common.SerializeUtil
+你可以使用以下方法快速的将对象在二进制数组和对象之间转换
+```C#
+public static object FromBinary(byte[] binaryBytes)
+public static object FromBinary(System.IO.Stream binaryStream)
+public static Tobject FromBinary<Tobject>(byte[] binaryBytes)
+public static Tobject FromBinary<Tobject>(System.IO.Stream binaryStream)
+public static byte[] ToBinary(object fromObject)
+```
+### 使用示例
+```C#
+var binaryBytes = Neko.Utility.Core.Common.SerializeUtil.ToBinary("Hello World");
+var str = Neko.Utility.Core.Common.SerializeUtil<string>(binaryBytes);
+```
+#### 输出结果
+str = "Hello World";
+你还可以用以下方法将对象在Xml、Json之间相互转换
+```C#
+#region xml相关
+public static object FromXml(byte[] xmlBytes)
+public static object FromXml(string xmlString)
+public static object FromXml(System.IO.Stream xmlStream)
+public static Tvalue FromXml<Tvalue>(byte[] xmlBytes)
+public static Tvalue FromXml<Tvalue>(string xmlString)
+public static Tvalue FromXml<Tvalue>(System.IO.Stream xmlStream)
+public static byte[] ToXml(object fromObject)
+#endregion
+#region json相关
+public static object FromJson(string jsonString)
+public static Tobject FromJson<Tobject>(string jsonString)
+public static string ToJson(object fromObject)
+public static string ToJson(object fromObject, bool formatJson)
+#endregion
+```
+### 使用示例
+```C#
+string json = Neko.Utility.Core.Common.SerializeUtil.ToJson("Hello World");
+Console.WriteLine(json);
+string str = Neko.Utility.Core.Common.SerializeUtil.FromJson(json);
+Console.WriteLine(str);
+```
+#### 输出结果
+```Shell
+> [\"Hello World\"]
+> Hello World
+```
+你还可以使用以下方法从Json字符串中快速获取一个节点的值
+```C#
+public static object GetJson(string jsonString, string key)
+public static Tvalue GetJson<Tvalue>(string jsonString, string key)
+```
+### 使用示例
+```C#
+string json = "{\"field\":\"Hello World\"}";
+string result = Neko.Utility.Core.Common.SerializeUtil.GetJson<string>(json,"field");
+Console.WriteLine(result);
+```
+#### 输出结果
+Hello World
+
+------
+其他文档不定期更新中。。。
