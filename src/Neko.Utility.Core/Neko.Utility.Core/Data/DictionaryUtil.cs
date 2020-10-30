@@ -54,7 +54,7 @@ namespace Neko.Utility.Core.Data
                 {
                     result = (Tvalue)System.Convert.ChangeType(dictionary[key], typeof(Tvalue));
                 }
-                catch(InvalidCastException ex)
+                catch (InvalidCastException ex)
                 {
                     LogUtil.WriteException(ex, "无法将对象转换为" + typeof(Tvalue));
                     throw ex;
@@ -150,10 +150,10 @@ namespace Neko.Utility.Core.Data
         /// <param name="dictionary">要排序的键值对</param>
         /// <param name="sortByValue">是否根据值进行排序<para>为true时按照Value排序,否则按照Key排序</para></param>
         /// <returns></returns>
-        public static IList<KeyValuePair<Tkey, Tvalue>> SortDictionary<Tkey, Tvalue>(IDictionary<Tkey, Tvalue> dictionary, bool sortByValue = true) where Tvalue:struct
+        public static IList<KeyValuePair<Tkey, Tvalue>> SortDictionary<Tkey, Tvalue>(IDictionary<Tkey, Tvalue> dictionary, bool sortByValue = true) where Tvalue : struct
         {
             List<KeyValuePair<Tkey, Tvalue>> results = new List<KeyValuePair<Tkey, Tvalue>>();
-            if(dictionary == null || dictionary.Count <= 0)
+            if (dictionary == null || dictionary.Count <= 0)
             {
                 return results;
             }

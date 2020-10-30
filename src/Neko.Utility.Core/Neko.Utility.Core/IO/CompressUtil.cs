@@ -210,7 +210,7 @@ namespace Neko.Utility.Core.IO
                 {
                     File.Delete(zipFile);
                 }
-                using (FileStream outputStream = new FileStream(zipFile,FileMode.Append,FileAccess.Write,FileShare.ReadWrite))
+                using (FileStream outputStream = new FileStream(zipFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
                 {
                     using (ZipOutputStream zipStream = new ZipOutputStream(outputStream))
                     {
@@ -295,7 +295,7 @@ namespace Neko.Utility.Core.IO
             {
                 Directory.CreateDirectory(unzipPath);
             }
-            using (ZipInputStream zipStream = new ZipInputStream(new FileStream(zipFile,FileMode.Open,FileAccess.Read,FileShare.ReadWrite)))
+            using (ZipInputStream zipStream = new ZipInputStream(new FileStream(zipFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 zipStream.Password = passCode;
                 ZipEntry zipEntry = null;
@@ -303,7 +303,7 @@ namespace Neko.Utility.Core.IO
                 {
                     while ((zipEntry = zipStream.GetNextEntry()) != null)
                     {
-                        LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在解压{0}",zipEntry.Name));
+                        LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在解压{0}", zipEntry.Name));
                         if (string.IsNullOrEmpty(zipEntry.Name))
                         {
                             continue;
@@ -321,7 +321,7 @@ namespace Neko.Utility.Core.IO
                         }
                         else if (zipEntry.IsFile)
                         {
-                            using (FileStream writeStream = new FileStream(fullUnzipPath,FileMode.Append,FileAccess.Write,FileShare.ReadWrite))
+                            using (FileStream writeStream = new FileStream(fullUnzipPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
                             {
                                 int readNum = 0;
                                 uint writeNum = 0;

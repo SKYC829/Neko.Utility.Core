@@ -133,7 +133,7 @@ namespace Neko.Utility.Core.IO.Logging
         /// <param name="logLevel">日志等级</param>
         /// <param name="logMessage">日志信息</param>
         /// <param name="innerException">错误信息</param>
-        internal void Commit(LogLevel logLevel, string logMessage,Exception innerException = null)
+        internal void Commit(LogLevel logLevel, string logMessage, Exception innerException = null)
         {
             Commit();
             if (!string.IsNullOrEmpty(logMessage))

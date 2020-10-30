@@ -50,7 +50,7 @@ namespace Neko.Utility.Core.Threading
         /// <returns></returns>
         public static Thread RunLoop(IntervalInfo intervalInfo)
         {
-            if(intervalInfo == null)
+            if (intervalInfo == null)
             {
                 return null;
             }

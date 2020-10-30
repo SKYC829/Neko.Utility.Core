@@ -1,7 +1,5 @@
 ﻿using Neko.Utility.Core.Configurations;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Neko.Utility.Core.IO.Logging
 {

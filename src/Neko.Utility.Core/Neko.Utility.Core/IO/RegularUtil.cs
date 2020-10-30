@@ -66,7 +66,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="value">要校验的字符串</param>
         /// <param name="regex">正则表达式</param>
         /// <returns></returns>
-        public static bool VerifyRegex(string value,string regex)
+        public static bool VerifyRegex(string value, string regex)
         {
             return Regex.IsMatch(value, regex);
         }

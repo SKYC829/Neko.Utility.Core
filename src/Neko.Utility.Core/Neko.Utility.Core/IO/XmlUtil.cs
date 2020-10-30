@@ -87,10 +87,10 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static string Get(XmlElement xmlElement,string attributeName)
+        public static string Get(XmlElement xmlElement, string attributeName)
         {
             string result = string.Empty;
-            if(xmlElement == null)
+            if (xmlElement == null)
             {
                 return result;
             }
@@ -115,9 +115,9 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <param name="attributeValue">要设置的值</param>
-        public static void Set(XmlElement xmlElement,string attributeName,object attributeValue)
+        public static void Set(XmlElement xmlElement, string attributeName, object attributeValue)
         {
-            if(xmlElement == null)
+            if (xmlElement == null)
             {
                 return;
             }
@@ -135,7 +135,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static Tvalue Get<Tvalue>(XmlElement xmlElement,string attributeName)
+        public static Tvalue Get<Tvalue>(XmlElement xmlElement, string attributeName)
         {
             string attributeValue = Get(xmlElement, attributeName);
             Tvalue result = default(Tvalue);
@@ -143,7 +143,7 @@ namespace Neko.Utility.Core.IO
             {
                 if (typeof(Tvalue).IsEnum)
                 {
-                    result = (Tvalue)Enum.Parse(typeof(Tvalue),attributeValue);
+                    result = (Tvalue)Enum.Parse(typeof(Tvalue), attributeValue);
                 }
                 else
                 {
@@ -163,7 +163,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static bool GetBool(XmlElement xmlElement,string attributeName)
+        public static bool GetBool(XmlElement xmlElement, string attributeName)
         {
             return Get<bool>(xmlElement, attributeName);
         }
@@ -174,7 +174,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static int GetInt(XmlElement xmlElement,string attributeName)
+        public static int GetInt(XmlElement xmlElement, string attributeName)
         {
             return Get<int>(xmlElement, attributeName);
         }
@@ -196,7 +196,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static double GetDouble(XmlElement xmlElement,string attributeName)
+        public static double GetDouble(XmlElement xmlElement, string attributeName)
         {
             return Get<double>(xmlElement, attributeName);
         }
@@ -207,7 +207,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="xmlElement">Xml元素</param>
         /// <param name="attributeName">特性的名称</param>
         /// <returns></returns>
-        public static float GetFloat(XmlElement xmlElement,string attributeName)
+        public static float GetFloat(XmlElement xmlElement, string attributeName)
         {
             return Get<float>(xmlElement, attributeName);
         }

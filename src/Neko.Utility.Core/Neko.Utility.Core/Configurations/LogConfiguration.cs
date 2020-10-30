@@ -71,7 +71,7 @@ namespace Neko.Utility.Core.Configurations
         /// <returns></returns>
         public static LogConfiguration GetConfiguration()
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 Instance = new LogConfiguration();
             }

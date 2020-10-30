@@ -18,7 +18,7 @@ namespace Neko.Utility.Core.Common
         /// <param name="count">要生成的数字的个数</param>
         /// <param name="canRepeat">是否允许重复数字</param>
         /// <returns></returns>
-        public static int[] Next(int count,bool canRepeat = false)
+        public static int[] Next(int count, bool canRepeat = false)
         {
             return Next(new Random(), count, canRepeat);
         }
@@ -30,17 +30,17 @@ namespace Neko.Utility.Core.Common
         /// <param name="count">要生成的数字的个数</param>
         /// <param name="canRepeat">是否允许重复数字</param>
         /// <returns></returns>
-        public static int[] Next(Random random,int count,bool canRepeat = false)
+        public static int[] Next(Random random, int count, bool canRepeat = false)
         {
             List<int> result = new List<int>();
-            if(random == null)
+            if (random == null)
             {
                 return result.ToArray();
             }
             for (int i = 0; i < count; i++)
             {
                 int item = random.Next(count + i);
-                if(result.Contains(item) && !canRepeat)
+                if (result.Contains(item) && !canRepeat)
                 {
                     i--;
                     continue;
@@ -57,7 +57,7 @@ namespace Neko.Utility.Core.Common
         /// <param name="items">要获取元素的数组</param>
         /// <param name="count">要获取元素的个数</param>
         /// <returns></returns>
-        public static Titem[] Draw<Titem>(IList<Titem> items,int count)
+        public static Titem[] Draw<Titem>(IList<Titem> items, int count)
         {
             List<double> odds = new List<double>();
             for (int i = 0; i < items.Count; i++)
@@ -76,7 +76,7 @@ namespace Neko.Utility.Core.Common
         /// <param name="odds">分配的权重,权重元素位置与<paramref name="items"/>的元素位置相对应</param>
         /// <param name="count">要获取元素的个数</param>
         /// <returns></returns>
-        public static Titem[] Draw<Titem>(IList<Titem> items,IList<double> odds,int count)
+        public static Titem[] Draw<Titem>(IList<Titem> items, IList<double> odds, int count)
         {
             Random random = new Random();
             Dictionary<Titem, double> oddsMap = new Dictionary<Titem, double>();
@@ -94,10 +94,10 @@ namespace Neko.Utility.Core.Common
         /// <param name="oddsMap">元素和权重的键值对</param>
         /// <param name="count">要获取元素的个数</param>
         /// <returns></returns>
-        public static Titem[] Draw<Titem>(IDictionary<Titem, double> oddsMap,int count)
+        public static Titem[] Draw<Titem>(IDictionary<Titem, double> oddsMap, int count)
         {
             List<Titem> results = new List<Titem>();
-            if(oddsMap == null || oddsMap.Count <= 0 || oddsMap.Count < count)
+            if (oddsMap == null || oddsMap.Count <= 0 || oddsMap.Count < count)
             {
                 return results.ToArray();
             }
@@ -126,7 +126,7 @@ namespace Neko.Utility.Core.Common
                 index[i] = i + 1;
             }
             int[] results = new int[length];
-            int cursor = 0,max = length;
+            int cursor = 0, max = length;
             for (int i = 0; i < length; i++)
             {
                 cursor = random.Next(0, max - 1);
@@ -139,7 +139,7 @@ namespace Neko.Utility.Core.Common
             {
                 result += results.ElementAt(i).ToString();
             }
-            if(result.Length > length)
+            if (result.Length > length)
             {
                 result = result.Substring(0, length);
             }

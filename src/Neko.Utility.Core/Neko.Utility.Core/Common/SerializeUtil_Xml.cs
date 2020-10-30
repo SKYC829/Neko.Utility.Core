@@ -57,7 +57,7 @@ namespace Neko.Utility.Core.Common
         /// <returns></returns>
         public static object FromXml(byte[] xmlBytes)
         {
-            if(xmlBytes == null || xmlBytes.Length <= 0)
+            if (xmlBytes == null || xmlBytes.Length <= 0)
             {
                 return null;
             }
@@ -84,7 +84,7 @@ namespace Neko.Utility.Core.Common
         /// <returns></returns>
         public static object FromXml(Stream xmlStream)
         {
-            if(xmlStream == null)
+            if (xmlStream == null)
             {
                 return null;
             }
@@ -144,7 +144,7 @@ namespace Neko.Utility.Core.Common
         public static Tvalue FromXml<Tvalue>(Stream xmlStream)
         {
             Tvalue result = default(Tvalue);
-            if(xmlStream == null)
+            if (xmlStream == null)
             {
                 return result;
             }
@@ -153,7 +153,7 @@ namespace Neko.Utility.Core.Common
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Tvalue));
                 object serializeResult = xmlSerializer.Deserialize(xmlStream);
                 Type resultType = serializeResult.GetType();
-                if(resultType.GetInterface(nameof(IConvertible)) != null)
+                if (resultType.GetInterface(nameof(IConvertible)) != null)
                 {
                     result = (Tvalue)Convert.ChangeType(serializeResult, typeof(Tvalue));
                 }

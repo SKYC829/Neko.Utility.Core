@@ -167,10 +167,10 @@ namespace Neko.Utility.Core.Common
         /// <param name="typeName">类型名称</param>
         /// <param name="constructParams">类型构造函数需要的参数</param>
         /// <returns></returns>
-        public static Ttype Instance<Ttype>(string typeName, params object[] constructParams) where Ttype:class,new()
+        public static Ttype Instance<Ttype>(string typeName, params object[] constructParams) where Ttype : class, new()
         {
             object result = Instance(typeName, constructParams);
-            if(result == null)
+            if (result == null)
             {
                 return default(Ttype);
             }
@@ -184,11 +184,11 @@ namespace Neko.Utility.Core.Common
         /// <param name="typeName">类型名称</param>
         /// <param name="constructParams">类型构造函数需要的参数</param>
         /// <returns></returns>
-        public static object Instance(string typeName,params object[] constructParams)
+        public static object Instance(string typeName, params object[] constructParams)
         {
             object result = null;
             Type targetType = GetType(typeName);
-            if(targetType == null)
+            if (targetType == null)
             {
                 return result;
             }
@@ -196,7 +196,7 @@ namespace Neko.Utility.Core.Common
             for (int i = 0; i < constructParams.Length; i++)
             {
                 object param = constructParams.ElementAt(i);
-                if(param == null)
+                if (param == null)
                 {
                     throw new ArgumentNullException(nameof(param), "生成构造函数时,构造参数不允许为空!");
                 }

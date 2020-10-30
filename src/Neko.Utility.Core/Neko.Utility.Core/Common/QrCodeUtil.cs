@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Neko.Utility.Core.Configurations;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode.Internal;
-using Neko.Utility.Core.Configurations;
 
 namespace Neko.Utility.Core.Common
 {
