@@ -239,6 +239,37 @@ namespace Neko.Utility.Core.IO
         }
 
         /// <summary>
+        /// 压缩一个字节数组
+        /// </summary>
+        /// <param name="bytes">要压缩的字节数组</param>
+        /// <returns></returns>
+        public static byte[] CompressBytes(byte[] bytes)
+        {
+            byte[] result = bytes;
+            if(bytes == null)
+            {
+                return null;
+            }
+            try
+            {
+                using (MemoryStream outputStream = new MemoryStream())
+                {
+                    using (ZipOutputStream inputStream = new ZipOutputStream(outputStream))
+                    {
+                        inputStream.SetLevel(7);
+                        inputStream.Write(bytes, 0, bytes.Length);
+                    }
+                    result = outputStream.ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtil.WriteException(ex);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 验证文件名,使文件名已.zip结尾
         /// </summary>
         /// <param name="fileName">文件名</param>
@@ -361,6 +392,45 @@ namespace Neko.Utility.Core.IO
                     LogUtil.WriteLog(Configurations.LogLevel.Track, "已成功解压压缩文件");
                 }
             }
+        }
+
+        /// <summary>
+        /// 解<inheritdoc cref="CompressBytes(byte[])"/>
+        /// </summary>
+        /// <param name="bytes">要解压缩的字节数组</param>
+        /// <returns></returns>
+        public static byte[] DeCompressBytes(byte[] bytes)
+        {
+            byte[] result = bytes;
+            if(bytes == null)
+            {
+                return null;
+            }
+            try
+            {
+                using (MemoryStream inputStream = new MemoryStream(bytes))
+                {
+                    using (ZipInputStream zipStream = new ZipInputStream(inputStream))
+                    {
+                        using (MemoryStream outputStream = new MemoryStream())
+                        {
+                            byte[] dataBytes = new byte[1024];
+                            int readNum = 0;
+                            do
+                            {
+                                readNum = zipStream.Read(dataBytes, 0, dataBytes.Length);
+                                outputStream.Write(dataBytes, 0, readNum);
+                            } while (readNum>0);
+                            result = outputStream.ToArray();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtil.WriteException(ex);
+            }
+            return result;
         }
     }
 }
