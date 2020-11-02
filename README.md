@@ -637,5 +637,12 @@ public static void WriteWarning(System.Exception warningException, string logMes
 	- Exception 异常信息日志
 
 ------
-
+### <a id="NetUtil">网络相关的帮助类</a>
+#### 命名空间:Neko.Utility.Core.Net.NetUtil
+这个帮助类可以获取本机的IP、查询一个站点的延迟、发送基于smtp/POP协议的邮件
+你可以使用以下方法获取本机的IP地址(注:获取局域网IP时，如果包含有多个网卡，默认获取第一个符合IPv4地址的网卡的地址)
+- 参数 internetIp 表示是否获取公网IP地址 false为获取局域网地址，默认为false
+```C#
+public static string GetIP([bool internetIp = False])
+```
 其他文档不定期更新中。。。
