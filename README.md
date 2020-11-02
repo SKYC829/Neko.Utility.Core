@@ -25,13 +25,12 @@
     3. [正则帮助类](#RegularUtil)
     4. [XML帮助类](#XmlUtil)
     5. [日志](#Logging)<br/>
-    	5.1 [日志类](#Logger)<br/>
-    		5.1.1 [日志信息](#LogInfo)<br/>
+    	5.1 [日志类](#Logger)
     	5.2 [日志帮助类](#LogUtil) 
 - <a id="Net">Net</a>
 	1. [网络相关的帮助类](#NetUtil)
 - <a id="Threading">Threading</a>
-	1. [线程帮助类](#ThreadUtil)
+	1. [线程帮助类](#ThreadUtil)<br/>
 		1.1 [线程信息的实体类对象](#IntervalInfo)
 - <a id="DelegateCodes">DelegateCodes</a>
 	1. [EmptyDelegateCode](#EmptyDelegateCode)<br/>
@@ -259,7 +258,7 @@ var binaryBytes = Neko.Utility.Core.Common.SerializeUtil.ToBinary("Hello World")
 var str = Neko.Utility.Core.Common.SerializeUtil<string>(binaryBytes);
 ```
 #### 输出结果
-str = "Hello World";
+str = "Hello World";<br/>
 你还可以用以下方法将对象在Xml、Json之间相互转换
 ```C#
 #region xml相关
@@ -411,5 +410,232 @@ public static System.DateTime GetTimeStamp(string timeStamp)
 //TimeStamp -> DataTime
 public static string GetTimeStamp(System.DateTime time)
 ```
-其他文档不定期更新中。。。
+------
 
+### <a id="CompressUtil">压缩帮助类</a>
+#### 命名空间:Neko.Utility.Core.IO.CompressUtil
+这个帮助类可以将文件压缩到zip文件里或解压zip文件,也可以用zip的形式压缩解压byte[]数组
+
+------
+### 压缩/解压文件
+使用以下方法将文件/文件夹添加到待压缩文件列表内
+- 如果是文件夹将会自动添加文件夹下的子文件夹和文件
+```C#
+public static void Add(string fileName)
+public static void Add(System.IO.FileSystemInfo fileSystem)
+public static void AddEntry(System.IO.FileSystemInfo fileSystem, ICSharpCode.SharpZipLib.Zip.ZipOutputStream zipStream, [string root = ])
+```
+使用以下方法将文件/文件夹从待压缩文件列表中移除
+```C#
+public static void Remove(string fileName)
+public static void Remove(System.IO.FileSystemInfo fileSystem)
+```
+如果是操作已有的压缩文件,则需要使用以下方法先打开压缩文件,将压缩文件内的文件列表加载出来
+```C#
+public static ICSharpCode.SharpZipLib.Zip.ZipInputStream OpenZip(string fileName)
+```
+然后再使用添加文件的方法将文件加入压缩文件列表或使用移除文件的方法将文件移除。
+使用以下方法可以开始压缩/解压缩zip文件
+```C#
+//压缩文件
+public static void Compress(string zipFile)
+public static void Compress(string zipFile, string passCode)
+//解压文件
+public static void Decompress(string zipFile, string unzipPath)
+public static void Decompress(string zipFile, string unzipPath, string passCode)
+```
+以下方法可以校验zip文件是否有错误
+```C#
+public static bool VerifyArchive(string fileName)
+```
+在压缩/解压文件时，将会通过以下事件通知外部正在压缩/解压的进度
+- public static event Neko.Utility.Core.CompressDelegateCode OnCompress
+- public static event Neko.Utility.Core.CompressDelegateCode OnDecompress
+
+------
+### 压缩/解压byte[]数组
+使用以下方法可以压缩/解压byte[]数组，在压缩/解压byte[]数组时，不会触发OnCompress/OnDecompress事件
+```C#
+public static byte[] CompressBytes(byte[] bytes)
+public static byte[] DeCompressBytes(byte[] bytes)
+```
+### <a id="EncryptionUtil">加密帮助类</a>
+#### 命名空间:Neko.Utility.Core.IO.EncryptionUtil
+这里封装了一些常见的对称加密/非对称加密的方法<strong>AES/DES/RSA加密后的字符串均为Base64字符串</strong>
+所有加密对象均可以是实体或数据
+- AES加密/解密
+```C#
+//加密
+public static byte[] EncryptAES(object content, string privateKey)
+public static string EncryptAESToString(object content, string privateKey)
+//解密
+public static object DeEncryptAES(byte[] encryptBytes, string privateKey)
+public static Tobject DeEncryptAES<Tobject>(string encryptContent, string privateKey)
+```
+- DES加密/解密
+```C#
+//加密
+public static byte[] EncryptDES(object content, string privateKey)
+public static string EncryptDESToString(object content, string privateKey)
+//解密
+public static object DeEncryptDES(byte[] encryptBytes, string privateKey)
+public static Tobject DeEncryptDES<Tobject>(string encryptContent, string privateKey)
+```
+- RSA加密/解密
+```C#
+//加密
+public static byte[] EncryptRSA(object content, string publicKey)
+public static string EncryptRSAToString(object content, string publicKey)
+//解密
+public static object DeEncryptRSA(byte[] encryptBytes, string privateKey)
+public static Tobject DeEncryptRSA<Tobject>(string encryptContent, string privateKey)
+```
+- MD5加密
+```C#
+public static string EncryptMD5(object content)
+```
+- SHA1加密
+	- 生成一对随机的RSA公钥和私钥(在不想自己做公钥和私钥的时候可以使用，每次都是随机生成) public static (string, string) GeneralRSAKey()
+```C#
+public static string EncryptSHA1(object content)
+```
+- SHA256加密
+```C#
+public static string EncryptSHA256(object content)
+```
+- 特殊的加密/解密
+	- 你可以使用自己的加密器来进行加密/解密，前提是你的加密/解密器实现了ICryptoTransform方法 
+```C#
+public static byte[] Encrypt(System.Security.Cryptography.ICryptoTransform cryptoTransform, byte[] value)
+```
+### 使用示例
+```C#
+TestClass test = new TestClass();
+test.Name = "Hello MD5";
+string md5Content = Neko.Utility.Core.IO.EncryptionUtil.EncryptMD5(test);
+Console.WriteLine("md5Content:{0}",md5Content);
+```
+#### 输出结果
+```Shell
+-> #MD5String#
+```
+------
+### <a id="RegularUtil">正则帮助类</a>
+#### 命名空间:Neko.Utility.Core.IO.RegularUtil
+# <strong><font color="red">特此声明:</font><strong>
+# <strong><font color="red">因中国大陆手机号规则和中国台湾、中国香港、中国澳门手机号规则不同，所以分别以不同的变量存储了对应的正则表达式，中国大陆身份证(15位、18位)同理。</font><strong>
+# <strong><font color="red">本人在此特别声明坚决维护中国统一，反对中国分裂，以防某些别有用心的人用这些内容来做文章。</font><strong>
+这个帮助类封装了验证正则字符串的方法和从一个字符串内取出符合正则规则的字符串
+- 属性
+	-  CHINESE_CHARACTER 所有的中文字符的正则表达式
+	-  EMAIL 邮箱地址的正则表达式
+	-  HONGKONG_CELLPHONE 中国香港手机号的正则表达式
+	-  IPADDRESS IPV4的正则表达式（为啥只有IPv4:因为IPv6太难太长了，我不会）
+	-  MACAO_CELLPHONE 中国澳门手机号的正则表达式
+	-  MAINLAND_CELLPHONE 中国大陆手机号的正则表达式
+	-  MAINLAND_IDCARD_15 中华人民共和国居民身份证一代身份证(15位)的正则表达式
+	-  MAINLAND_IDCARD_18 中华人民共和国居民身份证二代身份证(18位)的正则表达式
+	-  TAIWAN_CELLPHONE 中国台湾手机号的正则表达式
+	-  WEB_URL 网址的正则表达式
+- 方法
+用以下方法可以从一串字符串中取出符合正则表达式的内容
+```C#
+public static string Get(string value, string regex)
+public static System.Collections.Generic.IEnumerable<string> GetAll(string value, string regex)
+```
+用以下方法则可以验证一个字符串是否符合正则表达式
+```C#
+public static bool VerifyRegex(string value, string regex)
+```
+### 使用示例
+```C#
+string str1 = "阿巴阿巴阿巴https://github.com/";
+string str1_result = Neko.Utility.Core.IO.RegularUtil.Get(str1,Neko.Utility.Core.IO.RegularUtil.WEB_URL);
+Console.WriteLine("URL:{0}",str1_result);
+string str2 = "HelloWorld@Gmail.com";
+bool str2_result = Neko.Utility.Core.IO.RegularUtil.VerifyEmail(str2);
+Console.WriteLine("Is Email? {0}",str2_result);
+```
+#### 输出结果
+```Shell
+-> URL:https://github.com/
+-> Is Email? True
+```
+------
+### <a id="XmlUtil">Xml文档帮助类</a>(<small>注:上文中曾经出现的[Xml操作](#SerializeUtil)为操作Xml文件，而这里的Xml操作为操作Xml文档(即XmlDocument)</small>)
+#### 命名空间:Neko.Utility.Core.IO.XmlUtil
+这个帮助类可以快速获取一个System.Xml.XmlElement或者快速从System.Xml.XmlElement中获取System.Xml.XmlAttribute的值
+你可以使用以下方法判断一个XmlNodeList是否为空
+```C#
+public static bool IsNullOrEmpty(System.Xml.XmlNodeList nodeList)
+```
+你也可以通过以下方法设置XmlElement元素上一个特性的值
+```C#
+public static void Set(System.Xml.XmlElement xmlElement, string attributeName, object attributeValue)
+```
+或者使用以下方法获取XmlElement元素上特性的值
+```C#
+public static string Get(System.Xml.XmlElement xmlElement, string attributeName)
+public static Tvalue Get<Tvalue>(System.Xml.XmlElement xmlElement, string attributeName)
+```
+------
+### <a id="Logger">日志类</a>
+#### 命名空间:Neko.Utility.Core.IO.Logging.Logger
+这个类是一个可实例化的帮助类，它可以帮助记录日志和当前日志开始记录时到下一次提交日志时的耗时。耗时记录将在日志类被实例化的时候开始计算。
+你可以使用以下方法来进行单次计时(只会重置从上一次提交日志到此次提交日志的耗时间隔)
+- 参数 [日志配置信息](#LogConfiguration)
+- 参数 [日志等级](#LogLevel)
+```C#
+public void Commit()
+public void Commit(Neko.Utility.Core.Configurations.LogLevel logLevel, string logMessage, params object[] messageParameters)
+public void CommitException(string logMessage, params object[] messageParameters)
+public void CommitException(System.Exception innerException)
+public void CommitInformation(string logMessage, params object[] messageParameters)
+public void CommitTrack(string logMessage, params object[] messageParameters)
+public void CommitWarning(string logMessage, params object[] messageParameters)
+```
+你可以使用以下方法调用[日志帮助类](#LogUtil)将已记录的日志输出到日志文件并重置所有计时
+```C#
+public void WriteLog()
+```
+------
+### <a id="LogUtil">日志帮助类</a>
+#### 命名空间:Neko.Utility.Core.IO.Logging.LogUtil
+这个帮助类是[日志类](#Logger)的补充，可以将日志信息输出到文件中
+你可以使用以下方法将日志添加到日志队列，将会自动启用一个线程将队列中的日志信息输出到文件
+- 参数 [日志配置信息](#LogConfiguration)
+- 参数 [日志等级](#LogLevel)
+```C#
+public static void WriteException(System.Exception innerException, [string caption = null])
+public static void WriteInformation(string logMessage, params object[] messageParameters)
+public static void WriteLog(Neko.Utility.Core.Configurations.LogLevel logLevel, [string logMessage = null], [System.Exception innerException = null])
+public static void WriteWarning(System.Exception warningException, string logMessage, params object[] messageParameters)
+```
+------
+### <a id="LogConfiguration">日志配置信息</a>
+#### 命名空间:Neko.Utility.Core.Configurations.LogConfiguration
+- 属性:
+	- AddConsole 是否输出到控制台
+	- AddDebug 是否输出到编译器的Debug窗口
+	- WriteToEventLog 是否输出到Windows的系统日志(仅在Windows系统下有效)
+	- NoLocalFile 是否不输出本地日志文件
+	- LogPath 记录日志的路径
+	- LogFileName 本地日志文件的文件名
+	- LogLevel [日志等级](#LogLevel)，用于控制输出哪些日志
+	- RecordMinimumInterval 记录日志最小间隔(单位毫秒)当两次提交的日志耗时小于此间隔时，将不会记录此日志
+	- Instance 配置信息的单例
+- 方法
+	- GetConfiguration() 获取日志配置信息的单例
+
+------
+### <a id="LogLevel">日志等级</a>
+#### 命名空间:Neko.Utility.Core.Configurations.LogLevel
+- 成员
+	- Track 步骤日志，一般用于开发时记录执行步骤信息
+	- Information 普通信息日志
+	- Warning 警告信息日志
+	- Exception 异常信息日志
+
+------
+
+其他文档不定期更新中。。。
