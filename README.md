@@ -645,4 +645,51 @@ public static void WriteWarning(System.Exception warningException, string logMes
 ```C#
 public static string GetIP([bool internetIp = False])
 ```
+你可以使用以下方法获取本机与公网的延迟
+```C#
+public static int Ping()
+public static int Ping(string host)
+public static System.Net.NetworkInformation.PingReply Ping(string host, int timeout)
+```
+当你想要使用此帮助类发送邮件时，你可以使用以下方法创建一个邮件对象
+```C#
+public static System.Net.Mail.MailMessage CreateMailMessage(string senderAddress, [string title = ])
+```
+然后使用以下方法给邮件对象添加收信人
+```C#
+public static void AddReceiver(System.Net.Mail.MailMessage mailMessage, params string[] receiveAddress)
+```
+使用以下方法可以给邮件添加附件
+```C#
+public static void AddAttachment(System.Net.Mail.MailMessage mailMessage, params string[] filePath)
+public static void AddAttachment(System.Net.Mail.MailMessage mailMessage, System.IO.FileInfo file)
+```
+使用以下方法输入邮件内容
+```C#
+public static void AppendMailBody(System.Net.Mail.MailMessage mailMessage, string content, params object[] args)
+```
+最后使用以下方法发送邮件
+```C#
+public static System.Threading.Tasks.Task SendEmailAsync(System.Net.Mail.MailMessage mailMessage, string password, [string proxy = smtp], [bool useSsl = False])
+```
+### 获取IP使用示例
+```C#
+string localIP = Neko.Utility.Core.Net.NetUtil.GetIP();
+Console.WriteLine(localIP);
+string netIP = Neko.Utility.Core.Net.NetUtil.GetIP(true);
+Console.WriteLine(netIP);
+```
+#### 获取IP输出结果
+```Shell
+-> 192.168.*.*
+-> 255.255.*.*
+```
+### 发送邮件使用示例
+```C#
+var mailMessage = Neko.Utility.Core.Net.NetUtil.CreateMailMessage("HelloWorld@Gmail.com");
+Neko.Utility.Core.Net.NetUtil.AddReceiver(mailMessage,new string[]{"helloCSharp@gmail.com"});
+Neko.Utility.Core.Net.NetUtil.AddAttachment(mailMessage,new FileInfo("test.txt"));
+Neko.Utility.Core.Net.NetUtil.AppendMailBody(mailMessage,"yo CSharp :P ");
+Neko.Utility.Core.Net.NetUtil.SendEmailAsync(mailMessage,"#Password#");
+```
 其他文档不定期更新中。。。
