@@ -692,4 +692,27 @@ Neko.Utility.Core.Net.NetUtil.AddAttachment(mailMessage,new FileInfo("test.txt")
 Neko.Utility.Core.Net.NetUtil.AppendMailBody(mailMessage,"yo CSharp :P ");
 Neko.Utility.Core.Net.NetUtil.SendEmailAsync(mailMessage,"#Password#");
 ```
-其他文档不定期更新中。。。
+------ 
+### <a id="ThreadUtil">线程帮助类</a>
+#### 命名空间:Neko.Utility.Core.Threading.ThreadUtil
+这个帮助类封装了一些线程的快速操作，你可以使用以下方法让线程休眠一段时间
+```C#
+public static void Sleep(int interval)
+```
+你还可以使用以下方法创建并运行一个新线程和创建并循环执行一个线程
+```C#
+//创建并运行一个新线程
+public static System.Threading.Thread RunThread(Neko.Utility.Core.EmptyDelegateCode executeCode)
+//创建并循环执行一个线程
+public static System.Threading.Thread RunLoop(Neko.Utility.Core.Threading.IntervalInfo intervalInfo)
+```
+- 参数 [线程信息的实体类对象](#IntervalInfo)
+
+------
+### <a id="IntervalInfo">线程信息的实体类对象</a>
+#### 命名空间:Neko.Utility.Core.Threading.IntervalInfo
+- 属性
+	- Break 是否中断循环执行
+	- CurrentThread 当前线程对象
+	- ExecuteCode 当前线程要执行的方法
+	- Interval 线程循环执行时的间隔时间（单位:毫秒）
