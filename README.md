@@ -305,4 +305,111 @@ Console.WriteLine(result);
 Hello World
 
 ------
+
+### <a id="DictionaryUtil">键值对帮助类</a>
+#### 命名空间:Neko.Utility.Core.Data.DictionaryUtil
+你可以用以下方法将一个对象转换为键值对
+```C#
+public static System.Collections.IDictionary Convert(object target)
+```
+也可以用以下方法从键值对中获取某个key的值
+```C#
+public static object Get(System.Collections.IDictionary dictionary, string key)
+public static Tvalue Get<Tkey, Tvalue>(System.Collections.Generic.IDictionary<Tkey, Tvalue> dictionary, Tkey key)
+public static Tvalue Get<Tvalue>(System.Collections.Generic.IDictionary<string, Tvalue> dictionary, string key)
+```
+或者用以下方法将一个键值对按照键或者值进行排序
+- <small>参数sortByValue表示是否使用键值对的值进行排序,默认为true</small>
+- <small>方法限制了要求键值对的值必须是值类型,但是为了避免不必要的异常,建议用于排序的参数的类型为可以相减的类型(即值类型)</small>
+```C#
+public static System.Collections.Generic.IList<System.Collections.Generic.KeyValuePair<Tkey, Tvalue>> SortDictionary<Tkey, Tvalue>(System.Collections.Generic.IDictionary<Tkey, Tvalue> dictionary, [bool sortByValue = True])
+```
+------
+### <a id="EnumUtil">枚举帮助类</a>
+#### 命名空间:Neko.Utility.Core.Data.EnumUtil
+这个帮助类可以让你快速的把一个对象转换为枚举类型,当然,前提是它可以是一个枚举类型
+```C#
+public static object Convert(System.Type enumType, string value)
+public static object Convert(System.Type enumType, string value, object defaultValue)
+public static TEnum Convert<TEnum>(string value)
+public static TEnum Convert<TEnum>(string value, TEnum defaultValue)
+```
+------
+### <a id="ObjectUtil">对象帮助类</a><small>(这个帮助类并不能帮你找到对象 :/ )</small>
+#### 命名空间:Neko.Utility.Core.Data.ObjectUtil
+这个帮助类包含了对于对象的一些快速操作,你可以用以下方法将一个对象转换为System.Data.DataRow添加到一个System.Data.DataTable中
+```C#
+public static System.Data.DataTable ToTable(object fromObject)
+public static System.Data.DataTable AddTable(System.Data.DataTable dataTable, object fromObject)
+public static System.Data.DataTable AddTable(System.Data.DataTable dataTable, object fromObject, int offset)
+public static System.Data.DataTable AddTable(System.Data.DataTable dataTable, System.Collections.IList fromObjects)
+public static System.Data.DataTable AddTable(System.Data.DataTable dataTable, System.Collections.IList fromObjects, int offset)
+```
+你也可以用以下方法将一个对象转换为另一个类型的对象
+```C#
+public static TObject Convert<TObject>(object fromObject)
+public static TObject Convert<TObject>(object fromObject, TObject targetObject)
+public static object WriteTo(object fromObject, object targetObject)
+```
+或者用以下方法从一个对象中获取值或设置值
+```C#
+public static object Get(object target)
+public static void Set(object target, string fieldName, object fieldValue)
+public static void Set(System.Type targetType, object target, string fieldName, object fieldValue)
+```
+------
+### <a id="RowUtil">数据行帮助类</a>
+#### 命名空间:Neko.Utility.Core.Data.RowUtil
+这个帮助类可以帮你对System.Data.DataRow进行一些快速操作,比如你可以用以下方法向一个DataTable添加列
+```C#
+public static void AddColumn(System.Data.DataTable dataTable, params string[] columnNames)
+public static void AddColumn(System.Data.DataTable dataTable, params System.Data.DataColumn[] dataColumns)
+```
+或者用以下方法从DataRow获取数据或给DataRow设置数据
+- <small>给DataRow设置数据时如果数据所在的列不存在会自动添加列</small>
+```C#
+public static object Get(System.Data.DataRow dataRow, string columnName)
+public static object Get(System.Data.DataRow dataRow, string columnName, System.Type valueType)
+public static Tvalue Get<Tvalue>(System.Data.DataRow dataRow, string columnName)
+public static void Set(System.Data.DataRow dataRow, string columnName, object fieldValue)
+```
+或者用以下方法将一个DataRow从DataTable中取出来
+```C#
+public static System.Data.DataRow GetFirstRow(System.Data.DataTable dataTable)
+public static System.Data.DataRow GetRow(int index, System.Data.DataTable dataTable)
+```
+------
+### <a id="StringUtil">字符串帮助类</a>
+#### 命名空间:Neko.Utility.Core.Data.StringUtil
+这个帮助类可以对字符串进行一些快速操作,相当于一个弱一些的[对象帮助类](#ObjectUtil)
+例如你可以用以下方法对比两个类型是否一致
+```C#
+public static bool CompareType(System.Type fromType, string typeName)
+public static bool CompareType(System.Type fromType, System.Type toType)
+```
+你也可以用以下方法将对象从一个类型转换为另一个类型(这里大多是值类型的操作)
+```C#
+public static object Get(System.Type targetType, object value)
+public static TObject Get<TObject>(object value)
+```
+用这个方法可以判断一个对象是不是空的
+```C#
+public static bool IsNullOrEmpty(object value)
+```
+用以下方法可以对比两个对象是否一致(类似于JavaScript的'===')
+```C#
+public static bool SafeCompare(object fromValue, object toValue)
+public static bool SafeCompare(object fromValue, object toValue, bool ignoreCase)
+public static bool SafeCompare(string fromValue, string toValue)
+public static bool SafeCompare(string fromValue, string toValue, bool ignoreCase)
+```
+用以下方法可以获取一个时间的十三位Unix时间戳或将十三位的Unix时间戳转换为一个时间
+```C#
+//DataTime -> TimeStamp
+public static string GetTimeStamp()
+public static System.DateTime GetTimeStamp(string timeStamp)
+//TimeStamp -> DataTime
+public static string GetTimeStamp(System.DateTime time)
+```
 其他文档不定期更新中。。。
+
