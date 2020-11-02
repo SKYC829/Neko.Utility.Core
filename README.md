@@ -24,7 +24,7 @@
     2. [加密帮助类](#EncryptionUtil)
     3. [正则帮助类](#RegularUtil)
     4. [XML帮助类](#XmlUtil)
-    5. [日志](#Logging)<br/>
+    5. [日志](#Logger)<br/>
     	5.1 [日志类](#Logger)
     	5.2 [日志帮助类](#LogUtil) 
 - <a id="Net">Net</a>
