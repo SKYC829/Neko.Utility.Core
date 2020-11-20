@@ -463,6 +463,7 @@ public static byte[] DeCompressBytes(byte[] bytes)
 #### 命名空间:Neko.Utility.Core.IO.EncryptionUtil
 这里封装了一些常见的对称加密/非对称加密的方法<strong>AES/DES/RSA加密后的字符串均为Base64字符串</strong>
 所有加密对象均可以是实体或数据
+### 为了方便实体和数据的加密，所有序列化均采用二进制序列化，所以计算出来的结果会与网上常见的算法的结果不一致。在使用前请确认接受密文方算法
 - AES加密/解密
 ```C#
 //加密
