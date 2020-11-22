@@ -75,7 +75,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
@@ -114,7 +114,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (InvalidCastException ex)
             {
-                LogUtil.WriteException(ex, "解密时无法转换对象类型!");
+                throw new InvalidCastException("解密时无法转换对象类型!", ex);
             }
             return result;
         }
@@ -157,7 +157,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
