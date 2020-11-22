@@ -229,7 +229,6 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 if (File.Exists(zipFile))
                 {
                     File.Delete(zipFile);
@@ -264,7 +263,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -378,7 +377,6 @@ namespace Neko.Utility.Core.IO
                     {
                         Directory.Delete(unzipPath);
                     }
-                    LogUtil.WriteException(ex);
                     if (ex.Message.Equals("No password set."))
                     {
                         throw new ArgumentNullException("passCode", "请设置解压密码!");
@@ -428,7 +426,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
