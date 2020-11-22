@@ -233,7 +233,7 @@ namespace Neko.Utility.Core.IO.Logging
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
