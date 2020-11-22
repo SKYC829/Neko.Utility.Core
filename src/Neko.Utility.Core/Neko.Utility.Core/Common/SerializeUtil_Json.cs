@@ -51,10 +51,6 @@ namespace Neko.Utility.Core.Common
             {
                 result = JsonConvert.DeserializeObject<Tobject>(jsonString);
             }
-            catch (JsonException ex)
-            {
-                LogUtil.WriteException(ex);
-            }
             catch (Exception)
             {
                 throw;
@@ -87,7 +83,6 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
