@@ -1236,6 +1236,30 @@
             <param name="content"></param>
             <returns></returns>
         </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.Compress(System.Byte[])">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.CompressUtil.CompressBytes(System.Byte[])"/>
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.DeCompress(System.Byte[])">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.IO.CompressUtil.DeCompressBytes(System.Byte[])"/>
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.Sort``2(System.Collections.Generic.IDictionary{``0,``1},System.Boolean)">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Data.DictionaryUtil.SortDictionary``2(System.Collections.Generic.IDictionary{``0,``1},System.Boolean)"/>
+            </summary>
+            <typeparam name="TKey">键值对的键</typeparam>
+            <typeparam name="TValue">键值对的值</typeparam>
+            <param name="dictionary">要排序的键值对</param>
+            <param name="sortByValue">是否根据值进行排序<para>为true时按照Value排序,否则按照Key排序</para></param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.IO.CompressUtil">
             <summary>
             压缩文件帮助类
