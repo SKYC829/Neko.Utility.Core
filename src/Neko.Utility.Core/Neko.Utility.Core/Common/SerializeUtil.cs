@@ -79,13 +79,11 @@ namespace Neko.Utility.Core.Common
             }
             catch (InvalidCastException ex)
             {
-                LogUtil.WriteException(ex, "无法转换反序列化后的对象为" + typeof(Tobject));
-                throw ex;
+                throw new InvalidCastException("无法转换反序列化后的对象为" + typeof(Tobject),ex);
             }
             catch (SerializationException ex)
             {
-                LogUtil.WriteException(ex, string.Format("无法将{0}反序列化为{1}", resultType ?? null, typeof(Tobject)));
-                throw ex;
+                throw new SerializationException(string.Format("无法将{0}反序列化为{1}", resultType ?? null, typeof(Tobject)), ex);
             }
             catch (Exception)
             {
@@ -130,8 +128,7 @@ namespace Neko.Utility.Core.Common
             }
             catch (SerializationException ex)
             {
-                LogUtil.WriteException(ex, "无法序列化对象,请确认对象实现了Serialize特性");
-                throw ex;
+                throw new SerializationException("无法序列化对象,请确认对象实现了Serialize特性", ex);
             }
             catch (Exception)
             {
