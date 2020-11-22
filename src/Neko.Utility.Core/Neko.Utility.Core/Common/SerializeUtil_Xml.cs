@@ -30,7 +30,6 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return buffer;
@@ -71,7 +70,6 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
@@ -129,7 +127,6 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
@@ -164,7 +161,6 @@ namespace Neko.Utility.Core.Common
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
