@@ -41,8 +41,9 @@ namespace Neko.Utility.Core.IO
             }
             catch (IndexOutOfRangeException ex)
             {
-                LogUtil.WriteException(ex, "在验证密钥时发剩错误,索引超出密钥长度,返回密钥本身!");
+                //LogUtil.WriteException(ex, "在验证密钥时发剩错误,索引超出密钥长度,返回密钥本身!");
                 result = keyBytes;
+                throw new IndexOutOfRangeException("在验证密钥时发剩错误,索引超出密钥长度", ex);
             }
             return result;
         }
@@ -62,8 +63,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (CryptographicException ex)
             {
-                LogUtil.WriteException(ex);
-                throw;
+                throw ex;
             }
             finally
             {
@@ -159,7 +159,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (InvalidCastException ex)
             {
-                LogUtil.WriteException(ex, "解密时无法转换对象类型!");
+                throw new InvalidCastException("解密时无法转换对象类型!", ex);
             }
             return result;
         }
@@ -185,13 +185,11 @@ namespace Neko.Utility.Core.IO
             }
             catch (CryptographicException ex)
             {
-                LogUtil.WriteException(ex, "解密失败");
                 throw ex;
             }
             catch (SerializationException ex)
             {
-                LogUtil.WriteException(ex, "解密时序列化失败,无法反序列化对象");
-                throw ex;
+                throw new SerializationException("解密时序列化失败,无法反序列化对象", ex);
             }
             finally
             {
@@ -265,7 +263,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (InvalidCastException ex)
             {
-                LogUtil.WriteException(ex, "解密时无法转换对象类型!");
+                throw new InvalidCastException("解密时无法转换对象类型!", ex);
             }
             return result;
         }
@@ -291,13 +289,11 @@ namespace Neko.Utility.Core.IO
             }
             catch (CryptographicException ex)
             {
-                LogUtil.WriteException(ex, "解密失败");
                 throw ex;
             }
             catch (SerializationException ex)
             {
-                LogUtil.WriteException(ex, "解密时序列化失败,无法反序列化对象");
-                throw ex;
+                throw new SerializationException("解密时序列化失败,无法反序列化对象", ex);
             }
             finally
             {
@@ -329,7 +325,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
@@ -361,7 +357,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
@@ -393,7 +389,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             finally
             {
