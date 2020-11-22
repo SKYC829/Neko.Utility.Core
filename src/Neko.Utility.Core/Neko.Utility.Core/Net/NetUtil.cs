@@ -2,6 +2,7 @@
 using Neko.Utility.Core.IO;
 using Neko.Utility.Core.IO.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -45,7 +46,7 @@ namespace Neko.Utility.Core.Net
             }
             catch (SocketException)
             {
-                LogUtil.WriteWarning(null, "无法通过互联网获取本机IP，将采用本地Dns的形式进行获取!");
+                Debug.Print("无法通过互联网获取本机IP，将采用本地Dns的形式进行获取!");
                 result = GetLocalIPSafe();
             }
             finally
@@ -116,7 +117,7 @@ namespace Neko.Utility.Core.Net
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
