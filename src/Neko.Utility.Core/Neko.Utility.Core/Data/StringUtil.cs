@@ -150,7 +150,6 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
@@ -225,7 +224,6 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
@@ -310,7 +308,6 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return result;
