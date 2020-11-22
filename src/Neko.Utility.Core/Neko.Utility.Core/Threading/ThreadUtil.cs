@@ -34,7 +34,7 @@ namespace Neko.Utility.Core.Threading
                 }
                 catch (Exception ex)
                 {
-                    LogUtil.WriteException(ex);
+                    throw ex;
                 }
             });
             Thread executeThread = new Thread(threadStart);
@@ -64,7 +64,8 @@ namespace Neko.Utility.Core.Threading
                     }
                     catch (Exception ex)
                     {
-                        LogUtil.WriteException(ex);
+                        intervalInfo.Break = true;
+                        throw ex;
                     }
                     finally
                     {
