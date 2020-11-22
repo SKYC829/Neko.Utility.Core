@@ -172,7 +172,6 @@ namespace Neko.Utility.Core.Net
                 }
                 else
                 {
-                    LogUtil.WriteException(ex);
                     throw ex;
                 }
             }
