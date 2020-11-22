@@ -104,7 +104,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
@@ -152,7 +152,7 @@ namespace Neko.Utility.Core.IO
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
+                throw ex;
             }
             return result;
         }
