@@ -41,7 +41,6 @@ namespace Neko.Utility.Core.IO
             }
             catch (IndexOutOfRangeException ex)
             {
-                //LogUtil.WriteException(ex, "在验证密钥时发剩错误,索引超出密钥长度,返回密钥本身!");
                 result = keyBytes;
                 throw new IndexOutOfRangeException("在验证密钥时发剩错误,索引超出密钥长度", ex);
             }
