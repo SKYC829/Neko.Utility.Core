@@ -2,6 +2,7 @@
 using Neko.Utility.Core.IO;
 using Neko.Utility.Core.IO.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -163,7 +164,7 @@ namespace Neko.Utility.Core.Net
             {
                 if (ex.Message == "need EHLO and AUTH first" && !useSsl)
                 {
-                    LogUtil.WriteWarning(ex, "发送邮件失败！邮件服务器要求启用Ssl，正在启用Ssl并重试！");
+                    Debug.Print("发送邮件失败！邮件服务器要求启用Ssl，正在启用Ssl并重试！");
                     await SendEmailAsync(mailMessage, password, proxy, true);
                 }
                 else if (ex.Message.Contains("mail from address must be same as authorization user"))
