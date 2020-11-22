@@ -2,6 +2,7 @@
 using Neko.Utility.Core.IO.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -148,7 +149,8 @@ namespace Neko.Utility.Core.IO
                 return;
             }
             ZipEntry zipEntry = null;
-            LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在压缩{0}", fileSystem.Name));
+            //LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在压缩{0}", fileSystem.Name));
+            Debug.Print(string.Format("正在压缩{0}", fileSystem.Name));
             if (fileSystem.Attributes.HasFlag(FileAttributes.Directory))
             {
                 zipEntry = new ZipEntry(Path.Combine(root, fileSystem.Name + "\\"));
@@ -202,7 +204,8 @@ namespace Neko.Utility.Core.IO
         /// <param name="passCode">压缩文件密码</param>
         public static void Compress(string zipFile, string passCode)
         {
-            LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("开始生成压缩文件{0}", zipFile));
+            //LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("开始生成压缩文件{0}", zipFile));
+            Debug.Print(string.Format("开始生成压缩文件{0}", zipFile));
             zipFile = VerifyFileName(zipFile);
             try
             {
@@ -224,7 +227,7 @@ namespace Neko.Utility.Core.IO
                 }
                 if (!VerifyArchive(zipFile))
                 {
-                    LogUtil.WriteWarning(null, "已成功生成压缩文件,但校验未通过");
+                    Debug.Print("已成功生成压缩文件,但校验未通过");
                 }
             }
             catch (Exception ex)
@@ -315,7 +318,7 @@ namespace Neko.Utility.Core.IO
         /// <param name="passCode">压缩文件密码</param>
         public static async void Decompress(string zipFile, string unzipPath, string passCode)
         {
-            LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("开始解压压缩文件{0}", zipFile));
+            Debug.Print(string.Format("开始解压压缩文件{0}", zipFile));
             zipFile = VerifyFileName(zipFile);
             if (!File.Exists(zipFile) || !VerifyArchive(zipFile))
             {
@@ -333,7 +336,7 @@ namespace Neko.Utility.Core.IO
                 {
                     while ((zipEntry = zipStream.GetNextEntry()) != null)
                     {
-                        LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在解压{0}", zipEntry.Name));
+                        Debug.Print(string.Format("正在解压{0}", zipEntry.Name));
                         if (string.IsNullOrEmpty(zipEntry.Name))
                         {
                             continue;
@@ -387,7 +390,7 @@ namespace Neko.Utility.Core.IO
                 {
                     zipStream.Close();
                     zipStream.Dispose();
-                    LogUtil.WriteLog(Configurations.LogLevel.Track, "已成功解压压缩文件");
+                    Debug.Print("已成功解压压缩文件");
                 }
             }
         }
