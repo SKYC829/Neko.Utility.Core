@@ -56,8 +56,7 @@ namespace Neko.Utility.Core.Data
                 }
                 catch (InvalidCastException ex)
                 {
-                    LogUtil.WriteException(ex, "无法将对象转换为" + typeof(Tvalue));
-                    throw ex;
+                    throw new InvalidCastException("无法将对象转换为" + typeof(Tvalue), ex);
                 }
                 catch (Exception)
                 {
@@ -178,7 +177,6 @@ namespace Neko.Utility.Core.Data
             }
             catch (Exception ex)
             {
-                LogUtil.WriteException(ex);
                 throw ex;
             }
             return results;
