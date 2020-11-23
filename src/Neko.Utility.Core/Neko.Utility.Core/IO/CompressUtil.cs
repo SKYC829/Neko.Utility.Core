@@ -149,7 +149,6 @@ namespace Neko.Utility.Core.IO
                 return;
             }
             ZipEntry zipEntry = null;
-            //LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("正在压缩{0}", fileSystem.Name));
             Debug.Print(string.Format("正在压缩{0}", fileSystem.Name));
             if (fileSystem.Attributes.HasFlag(FileAttributes.Directory))
             {
@@ -204,7 +203,6 @@ namespace Neko.Utility.Core.IO
         /// <param name="passCode">压缩文件密码</param>
         public static void Compress(string zipFile, string passCode)
         {
-            //LogUtil.WriteLog(Configurations.LogLevel.Track, string.Format("开始生成压缩文件{0}", zipFile));
             Debug.Print(string.Format("开始生成压缩文件{0}", zipFile));
             zipFile = VerifyFileName(zipFile);
             try
