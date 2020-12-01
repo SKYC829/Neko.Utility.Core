@@ -1,9 +1,11 @@
-﻿using Neko.Utility.Core.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Neko.Utility.Core.Common;
 using Neko.Utility.Core.Data;
 using Neko.Utility.Core.IO;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -203,6 +205,44 @@ namespace Neko.Utility.Core
         public static IList<KeyValuePair<TKey,TValue>> Sort<TKey,TValue>(this IDictionary<TKey,TValue> dictionary,bool sortByValue = true) where TValue : struct
         {
             return DictionaryUtil.SortDictionary<TKey, TValue>(dictionary, sortByValue);
+        }
+
+        /// <summary>
+        /// 从程序集批量依赖注入
+        /// </summary>
+        /// <typeparam name="TBaseInterface">依赖注入的所有接口的基接口</typeparam>
+        /// <param name="services">服务集</param>
+        /// <param name="instanceAssemblyName">依赖注入的接口所在的程序集文件名称</param>
+        /// <param name="abstractAssemblyName">依赖注入的实例所在的程序集文件名称</param>
+        /// <returns></returns>
+        public static IServiceCollection AutoDependencyInject<TBaseInterface>(this IServiceCollection services, string instanceAssemblyName, string abstractAssemblyName)
+        {
+            Type baseInterfaceType = typeof(TBaseInterface);
+            Assembly injectAbstractAssembly = Assembly.LoadFrom(new FileInfo(abstractAssemblyName).FullName);
+            Assembly injectInstanceAssembly = Assembly.LoadFrom(new FileInfo(instanceAssemblyName).FullName);
+            if (injectAbstractAssembly == null)
+            {
+                throw new FileNotFoundException("无法加载程序集:[{0}],文件不存在!", abstractAssemblyName);
+            }
+            if (injectInstanceAssembly == null)
+            {
+                throw new FileNotFoundException("无法加载程序集:[{0}],文件不存在!", instanceAssemblyName);
+            }
+            IQueryable<Type> injectAbstractTypes = injectAbstractAssembly.GetTypes().Where(p => p.IsInterface && baseInterfaceType.IsAssignableFrom(p)).AsQueryable(); //得到所有要注入的实现了基类的接口
+            foreach (Type injectAbstractType in injectAbstractTypes)
+            {
+                IQueryable<Type> injectInstanceTypes = injectInstanceAssembly.GetTypes().Where(p => p.IsClass && injectAbstractType.IsAssignableFrom(p) && !p.IsAbstract).AsQueryable(); //得到所有实现了injectAbstractType接口的不是抽象类的类
+                foreach (Type injectInstanceType in injectInstanceTypes)
+                {
+                    IQueryable<Type> interfaceTypes = injectInstanceType.GetInterfaces().Where(p => p != baseInterfaceType).AsQueryable(); //得到要注入的类实现的所有不是基接口的接口
+                    foreach (Type interfaceType in interfaceTypes)
+                    {
+                        //在不考虑性能的情况下,使用AddScoped注入所有对象,如果要考虑性能的话,可以增加一个自定义特性,在要注入的类上边声明特性,然后这里根据特性的类型来判断注入类型
+                        services.AddScoped(interfaceType, injectInstanceType);
+                    }
+                }
+            }
+            return services;
         }
     }
 }
