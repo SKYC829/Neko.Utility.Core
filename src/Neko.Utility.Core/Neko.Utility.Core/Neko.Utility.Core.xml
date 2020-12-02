@@ -1260,6 +1260,16 @@
             <param name="sortByValue">是否根据值进行排序<para>为true时按照Value排序,否则按照Key排序</para></param>
             <returns></returns>
         </member>
+        <member name="M:Neko.Utility.Core.ExtensionCodes.AutoDependencyInject``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            从程序集批量依赖注入
+            </summary>
+            <typeparam name="TBaseInterface">依赖注入的所有接口的基接口</typeparam>
+            <param name="services">服务集</param>
+            <param name="instanceAssemblyName">依赖注入的接口所在的程序集文件名称</param>
+            <param name="abstractAssemblyName">依赖注入的实例所在的程序集文件名称</param>
+            <returns></returns>
+        </member>
         <member name="T:Neko.Utility.Core.IO.CompressUtil">
             <summary>
             压缩文件帮助类
