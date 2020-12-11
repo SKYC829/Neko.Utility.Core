@@ -1,6 +1,7 @@
 ﻿using Neko.Utility.Core.IO.Logging;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Neko.Utility.Core.Threading
 {
@@ -75,6 +76,56 @@ namespace Neko.Utility.Core.Threading
             });
             intervalInfo.CurrentThread = executeThread;
             return executeThread;
+        }
+
+        /// <summary>
+        /// 以异步的方式运行一个委托方法
+        /// </summary>
+        /// <param name="executeCode">委托方法</param>
+        /// <returns></returns>
+        public static async Task RunAsync(EmptyDelegateCode executeCode)
+        {
+            await Task.Run(() => executeCode?.Invoke());
+        }
+
+        /// <summary>
+        /// 以异步的方式循环运行一个委托方法(可中断)
+        /// </summary>
+        /// <param name="intervalInfo">线程信息</param>
+        /// <returns></returns>
+        public static async Task RunAsync(IntervalInfo intervalInfo)
+        {
+            if(intervalInfo == null)
+            {
+                return;
+            }
+            await Task.Run(() =>
+            {
+                while (!intervalInfo.Break)
+                {
+                    intervalInfo?.ExecuteCode.Invoke();
+                    Sleep(intervalInfo.Interval);
+                }
+            });
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="RunAsync(EmptyDelegateCode)"/>
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="executeCode">委托方法</param>
+        /// <returns></returns>
+        public static async Task<TResult> RunAsync<TResult>(EmptyDelegateCode<TResult> executeCode)
+        {
+            return await Task.Run(() =>
+            {
+                TResult result = default(TResult);
+                if(executeCode != null)
+                {
+                    result = executeCode.Invoke();
+                }
+                return result;
+            });
         }
     }
 }
