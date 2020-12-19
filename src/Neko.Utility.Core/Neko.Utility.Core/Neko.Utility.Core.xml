@@ -2164,5 +2164,27 @@
             <param name="intervalInfo">线程信息</param>
             <returns></returns>
         </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.RunAsync(Neko.Utility.Core.EmptyDelegateCode)">
+            <summary>
+            以异步的方式运行一个委托方法
+            </summary>
+            <param name="executeCode">委托方法</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.RunAsync(Neko.Utility.Core.Threading.IntervalInfo)">
+            <summary>
+            以异步的方式循环运行一个委托方法(可中断)
+            </summary>
+            <param name="intervalInfo">线程信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neko.Utility.Core.Threading.ThreadUtil.RunAsync``1(Neko.Utility.Core.EmptyDelegateCode{``0})">
+            <summary>
+            <inheritdoc cref="M:Neko.Utility.Core.Threading.ThreadUtil.RunAsync(Neko.Utility.Core.EmptyDelegateCode)"/>
+            </summary>
+            <typeparam name="TResult">返回值类型</typeparam>
+            <param name="executeCode">委托方法</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

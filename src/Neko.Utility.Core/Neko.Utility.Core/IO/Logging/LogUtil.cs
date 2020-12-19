@@ -62,11 +62,11 @@ namespace Neko.Utility.Core.IO.Logging
         {
             if (CanUseEventLog)
             {
-                if (!EventLog.SourceExists("Neko.Utility"))
+                if (!EventLog.SourceExists(AppDomain.CurrentDomain.FriendlyName))
                 {
                     try
                     {
-                        EventLog.CreateEventSource("Neko.Utility", AppDomain.CurrentDomain.FriendlyName);
+                        EventLog.CreateEventSource(AppDomain.CurrentDomain.FriendlyName, Guid.NewGuid().ToString());
                     }
                     catch (SecurityException)
                     {
@@ -74,7 +74,7 @@ namespace Neko.Utility.Core.IO.Logging
                     }
                 }
                 _log = new EventLog(AppDomain.CurrentDomain.FriendlyName);
-                _log.Source = "Neko.Utility";
+                _log.Source = AppDomain.CurrentDomain.FriendlyName;
             }
             ThreadUtil.RunLoop(new IntervalInfo()
             {
