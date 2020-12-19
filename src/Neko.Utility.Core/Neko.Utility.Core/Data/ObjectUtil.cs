@@ -77,6 +77,7 @@ namespace Neko.Utility.Core.Data
                 return result;
             }
             Type fromType = fromObject.GetType();
+            Type targetType = result.GetType();
             PropertyInfo[] fromProperties = fromType.GetProperties();
             foreach (PropertyInfo property in fromProperties)
             {
@@ -91,7 +92,7 @@ namespace Neko.Utility.Core.Data
                 }
                 try
                 {
-                    if (CanWrite(property.PropertyType, propertyValue))
+                    if (targetType.GetProperty(property.Name) != null && CanWrite(targetType.GetProperty(property.Name).PropertyType, propertyValue))
                     {
                         Set(result, property.Name, propertyValue);
                     }

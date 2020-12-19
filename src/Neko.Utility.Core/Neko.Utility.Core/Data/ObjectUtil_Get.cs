@@ -68,7 +68,7 @@ namespace Neko.Utility.Core.Data
                 {
                     resultGenericType = resultType.GetGenericArguments().FirstOrDefault(); //获取第一个泛型类型
                 }
-                if (result is JArray || result is ArrayList || (resultGenericType != null && (StringUtil.CompareType(resultGenericType, typeof(JObject)) || StringUtil.CompareType(resultGenericType, "System.Object"))))
+                if (result is JArray || result is ArrayList || (resultGenericType != null && (StringUtil.CompareType(resultGenericType, typeof(JObject)) || resultGenericType.Equals(typeof(object)) /*StringUtil.CompareType(resultGenericType, "System.Object")*/)))
                 {
                     IList resultList = result as IList; //处理Json数组
                     resultList = ConvertList(resultList);
