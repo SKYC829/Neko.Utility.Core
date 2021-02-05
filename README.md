@@ -3,6 +3,8 @@
  A Utility project for netcore
 
 -----
+## 该项目已不再更新,最新版本请移步新项目[Neko.Utility](https://github.com/SKYC829/Neko.Utility)
+-----
 
 [目录]
 
